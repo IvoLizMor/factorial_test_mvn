@@ -2,24 +2,27 @@ package com.example;
 
 public class FactorialRecursivo {
 
-    // Multiplicación recursiva usando long para evitar desbordamiento
-    public static long multiplicar(long x, long p) {
-        if (p == 0) return 0;
-        if (p > 0) return x + multiplicar(x, p - 1);
-        return -multiplicar(x, -p); // Manejo de negativos
+    // Multiplicación recursiva mejorada usando "multiplicación rusa"
+    public static long multiplicar(long x, long y) {
+        if (y == 0) return 0;
+        if (y < 0) return -multiplicar(x, -y); // Manejo de negativos
+
+        if (y % 2 == 0) {
+            // Si y es par, multiplicar x por y es lo mismo que multiplicar 2*x por y/2
+            return multiplicar(x + x, y / 2);
+        } else {
+            // Si y es impar, sumamos x y multiplicamos x por y-1
+            return x + multiplicar(x, y - 1);
+        }
     }
 
-    // Factorial usando multiplicar con long
+    // Factorial recursivo que usa la multiplicación recursiva
     public static long factorial(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("El factorial no está definido para números negativos");
         }
-
-        long resultado = 1;
-        for (int i = 2; i <= n; i++) {
-            resultado = multiplicar(resultado, i);
-        }
-        return resultado;
+        if (n == 0 || n == 1) return 1;
+        return multiplicar(n, factorial(n - 1));
     }
 
     public static void main(String[] args) {
