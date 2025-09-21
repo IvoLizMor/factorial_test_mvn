@@ -2,14 +2,14 @@ package com.example;
 
 public class FactorialRecursivo {
 
-    // Multiplicación recursiva usando long para evitar desbordamiento
+    // Multiplicación recursiva usando long (se deja para compatibilidad con los tests)
     public static long multiplicar(long x, long p) {
         if (p == 0) return 0;
         if (p > 0) return x + multiplicar(x, p - 1);
         return -multiplicar(x, -p); // Manejo de negativos
     }
 
-    // Factorial usando multiplicar con long
+    // Factorial implementado de forma iterativa con long (más eficiente que usar multiplicar)
     public static long factorial(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("El factorial no está definido para números negativos");
@@ -17,7 +17,7 @@ public class FactorialRecursivo {
 
         long resultado = 1;
         for (int i = 2; i <= n; i++) {
-            resultado = multiplicar(resultado, i);
+            resultado *= i; // multiplicación directa con long
         }
         return resultado;
     }
