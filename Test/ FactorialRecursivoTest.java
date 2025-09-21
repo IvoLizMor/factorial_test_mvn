@@ -77,3 +77,4 @@ public class FactorialRecursivoTest {
         assertTrue(resultado.compareTo(BigInteger.ZERO) > 0);
     }
 }
+
