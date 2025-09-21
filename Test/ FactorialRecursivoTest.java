@@ -1,9 +1,9 @@
 package com.example;
 
-import java.math.BigInteger;
 import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -43,7 +43,7 @@ public class FactorialRecursivoTest {
         "10, 3628800"
     })
     void testFactorialValoresValidos(int n, long esperado) {
-        assertEquals(BigInteger.valueOf(esperado), FactorialRecursivo.factorial(n));
+        assertEquals(esperado, FactorialRecursivo.factorial(n));
     }
 
     // 🔹 Tests para factorial con valores negativos (espera excepción)
@@ -55,25 +55,18 @@ public class FactorialRecursivoTest {
         });
     }
 
-    // 🔹 Test para factorial de un número grande
+    // 🔹 Test para factorial de un número grande pero dentro de los límites de long
     @Test
     void testFactorialGrande() {
-        BigInteger esperado = new BigInteger("2432902008176640000");
-        assertEquals(esperado, FactorialRecursivo.factorial(20));
+        assertEquals(2432902008176640000L, FactorialRecursivo.factorial(20));
     }
 
-    // 🔹 Test de rendimiento
+    // 🔹 Test de performance: verificar que factorial no tarde demasiado
     @Test
     void testPerformanceFactorial() {
         assertTimeout(Duration.ofMillis(100), () -> {
             FactorialRecursivo.factorial(15);
         });
     }
-
-    // 🔹 Test para factorial de número muy grande (sin desbordamiento)
-    @Test
-    void testFactorialMuyGrande() {
-        BigInteger resultado = FactorialRecursivo.factorial(100);
-        assertTrue(resultado.compareTo(BigInteger.ZERO) > 0);
-    }
 }
+
