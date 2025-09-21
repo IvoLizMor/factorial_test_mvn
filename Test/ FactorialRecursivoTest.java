@@ -3,7 +3,10 @@ package com.example;
 import java.math.BigInteger;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -77,4 +80,3 @@ public class FactorialRecursivoTest {
         assertTrue(resultado.compareTo(BigInteger.ZERO) > 0);
     }
 }
-
