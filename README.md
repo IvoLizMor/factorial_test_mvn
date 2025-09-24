@@ -25,7 +25,7 @@ javac com/example/FactorialRecursivo.java
 ## Como ejecutar el programa
 java com.example.FactorialRecursivo
 
-##Prueba minima
+
 ## Prueba mínima
 
 Para verificar el funcionamiento del proyecto, se puede ejecutar la clase principal `FactorialRecursivoTest.java` o correr los tests con Maven:
