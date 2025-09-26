@@ -1,1 +1,6 @@
-id,descripcion,fecha,responsable,estado
+ID,Clase,Método,Descripción del Defecto,Severidad,Estado,Notas
+DF001,FactorialRecursivoTest,testFactorialValoresValidos,El uso de long como tipo esperado puede causar pérdida de precisión para factoriales grandes.,Media,Abierto,Se recomienda usar BigInteger en el CSVSource para evitar desbordamiento.
+DF002,FactorialRecursivoTest,testFactorialMuyGrande,Falta importación de assertTrue para validar el resultado.,Alta,Abierto,Agregar importación: static org.junit.jupiter.api.Assertions.assertTrue;
+DF003,FactorialRecursivoTest,testPerformanceFactorial,El límite de tiempo puede ser demasiado estricto en máquinas lentas.,Baja,Abierto,Considerar aumentar a 200ms para mayor tolerancia.
+DF004,FactorialRecursivoTest,testFactorialGrande,El valor esperado está hardcodeado y puede causar confusión si se cambia la implementación.,Media,Abierto,Podría calcularse dinámicamente o documentarse mejor.
+DF005,FactorialRecursivoTest,testMultiplicarConNegativo,No se prueba el caso de multiplicar positivo por negativo explícitamente.,Baja,Abierto,Agregar assertEquals(-12, multiplicar(3, -4)) para mayor cobertura.
