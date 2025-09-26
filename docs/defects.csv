@@ -1,15 +1,11 @@
-ID,Clase,Método,Descripción del Defecto,Severidad,Estado,Notas
-DF001,FactorialRecursivoTest,testFactorialValoresValidos,El uso de long como tipo esperado puede causar pérdida de precisión para factoriales grandes.,Media,Abierto,Se recomienda usar BigInteger en el CSVSource para evitar desbordamiento.
-DF002,FactorialRecursivoTest,testFactorialMuyGrande,Falta importación de assertTrue para validar el resultado.,Alta,Abierto,Agregar importación: static org.junit.jupiter.api.Assertions.assertTrue;
-DF003,FactorialRecursivoTest,testPerformanceFactorial,El límite de tiempo puede ser demasiado estricto en máquinas lentas.,Baja,Abierto,Considerar aumentar a 200ms para mayor tolerancia.
-DF004,FactorialRecursivoTest,testFactorialGrande,El valor esperado está hardcodeado y puede causar confusión si se cambia la implementación.,Media,Abierto,Podría calcularse dinámicamente o documentarse mejor.
-DF005,FactorialRecursivoTest,testMultiplicarConNegativo,No se prueba el caso de multiplicar positivo por negativo explícitamente.,Baja,Abierto,Agregar assertEquals(-12, multiplicar(3, -4)) para mayor cobertura.
-
-ID,Clase,Método,Descripción del Defecto,Severidad,Estado,Notas
-DF101,FactorialRecursivo,factorial,Conflictos de fusión sin resolver (marcas =======, revisión_error_calculo, main),Alta,Abierto,Resolver manualmente los conflictos y consolidar la lógica correcta.
-DF102,FactorialRecursivo,factorial,Definición duplicada del método factorial con implementaciones distintas,Alta,Abierto,Unificar en una sola versión: recursiva con memorización o iterativa con bucle.
-DF103,FactorialRecursivo,factorial,La variable cache está definida en una versión pero no en la otra,Media,Abierto,Si se usa memorización, asegurar que cache esté correctamente declarada y utilizada.
-DF104,FactorialRecursivo,factorial,El método iterativo ignora la cache y los casos base,Media,Abierto,Agregar verificación de cache y casos base si se mantiene la versión iterativa.
-DF105,FactorialRecursivo,multiplicar,No se valida si p es negativo antes de llamar recursivamente,Media,Abierto,Aunque se maneja con negación, podría agregarse validación explícita para mayor claridad.
-DF106,FactorialRecursivo,main,Duplicación del método main con llamadas redundantes,Media,Abierto,Consolidar en una sola función main con pruebas claras y sin repeticiones.
-DF107,FactorialRecursivo,factorial,Importaciones duplicadas y desordenadas (BigInteger, HashMap, Map),Baja,Abierto,Limpiar las importaciones y dejar solo las necesarias.
+id,pr,archivo,linea,tipo,severidad,descripcion,estado,reportado_por,decidido_por,comentarios
+1,#6,FactorialRecursivo.java,1,Estructura,Media,Se combinan clases de lógica y pruebas en un solo archivo,Abierto,ivonnelizethmoreno-cloud,ivonnelizethmoreno-cloud,Va en contra de buenas prácticas Java
+2,#6,FactorialRecursivo.java,N/A,Estructura,Baja,Estructura del PR difiere de la rama main,Abierto,ivonnelizethmoreno-cloud,ivonnelizethmoreno-cloud,Puede generar conflictos al hacer merge
+3,#6,FactorialRecursivo.java,30+,Estilo,Baja,Imports ubicados dentro de clases en lugar de al inicio,Abierto,ivonnelizethmoreno-cloud,ivonnelizethmoreno-cloud,Rompe convención de orden en Java
+4,#6,FactorialRecursivo.java,86+,Ubicación,Media,Método main está dentro de clase de test en vez de clase principal,Abierto,ivonnelizethmoreno-cloud,ivonnelizethmoreno-cloud,Debe estar en App.java o clase principal
+5,#6,FactorialRecursivo.java,80+,Funcionalidad,Alta,Test de memoización sin implementación real en método factorial,Abierto,ivonnelizethmoreno-cloud,ivonnelizethmoreno-cloud,Genera falsa expectativa en pruebas
+6,#9,FactorialRecursivo.java,11,Lógica,Alta,Desbordamiento por uso de long en factorial,Resuelto,ivonnelizethmoreno-cloud,jhonjairosolerumbarila-ops,Se reemplazó por BigInteger
+7,#9,FactorialRecursivo.java,15,Validación,Media,Falta de manejo de negativos,Resuelto,ivonnelizethmoreno-cloud,jhonjairosolerumbarila-ops,Se lanza IllegalArgumentException con mensaje claro
+8,#9,FactorialRecursivo.java,20,Optimización,Media,Falta de memorización en factorial,Resuelto,jhonjairosolerumbarila-ops,jhonjairosolerumbarila-ops,Se agregó cache con HashMap
+9,#9,FactorialRecursivo.java,40+,Pruebas,Media,Falta de validación exacta de factoriales grandes,Resuelto,jhonjairosolerumbarila-ops,ivonnelizethmoreno-cloud,Se recomienda validar 100! y 20! con valores esperados
+10,#9,FactorialRecursivo.java,50+,Rendimiento,Baja,Falta de documentación sobre tiempos aceptables,Abierto,jhonjairosolerumbarila-ops,N/A,Agregar comentarios en tests de performance
