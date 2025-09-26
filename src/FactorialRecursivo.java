@@ -1,6 +1,7 @@
 package com.example;
  
 import java.math.BigInteger;
+revisión_error_calculo
  
 public class FactorialRecursivo {
  
@@ -20,12 +21,25 @@ public class FactorialRecursivo {
 
     public static BigInteger factorial(int n) {
 
+=======
+import java.util.HashMap;
+import java.util.Map;
+ 
+public class FactorialRecursivo {
+ 
+    // Cache para memorización de factoriales ya calculados
+    private static Map<Integer, BigInteger> cache = new HashMap<>();
+ 
+    // Factorial recursivo con memorización y BigInteger (soporta hasta 100! o más)
+    public static BigInteger factorial(int n) {
+main
         if (n < 0) {
 
             throw new IllegalArgumentException("n debe ser >= 0");
 
         }
  
+revisión_error_calculo
         BigInteger resultado = BigInteger.ONE;
 
         for (int i = 2; i <= n; i++) {
@@ -44,6 +58,29 @@ public class FactorialRecursivo {
 
         System.out.println("Multiplicación de -3 * -4 (long): " + multiplicar(-3, -4));
 
+=======
+        // Casos base
+        if (n == 0 || n == 1) {
+            return BigInteger.ONE;
+        }
+ 
+        // Revisar si ya está en cache
+        if (cache.containsKey(n)) {
+            return cache.get(n);
+        }
+ 
+        // Calcular recursivamente y guardar en cache
+        BigInteger resultado = BigInteger.valueOf(n).multiply(factorial(n - 1));
+        cache.put(n, resultado);
+ 
+        return resultado;
+    }
+ 
+    public static void main(String[] args) {
+        System.out.println("Factorial de 20: " + factorial(20)); 
+        System.out.println("Factorial de 50: " + factorial(50));
+        System.out.println("Factorial de 100: " + factorial(100)); 
+main
     }
 
 }

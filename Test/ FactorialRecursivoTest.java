@@ -2,7 +2,6 @@ package com.example;
 
 import java.math.BigInteger;
 import java.time.Duration;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
@@ -80,3 +79,4 @@ public class FactorialRecursivoTest {
         assertTrue(resultado.compareTo(BigInteger.ZERO) > 0);
     }
 }
+
