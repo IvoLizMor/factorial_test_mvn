@@ -4,3 +4,12 @@ DF002,FactorialRecursivoTest,testFactorialMuyGrande,Falta importación de assert
 DF003,FactorialRecursivoTest,testPerformanceFactorial,El límite de tiempo puede ser demasiado estricto en máquinas lentas.,Baja,Abierto,Considerar aumentar a 200ms para mayor tolerancia.
 DF004,FactorialRecursivoTest,testFactorialGrande,El valor esperado está hardcodeado y puede causar confusión si se cambia la implementación.,Media,Abierto,Podría calcularse dinámicamente o documentarse mejor.
 DF005,FactorialRecursivoTest,testMultiplicarConNegativo,No se prueba el caso de multiplicar positivo por negativo explícitamente.,Baja,Abierto,Agregar assertEquals(-12, multiplicar(3, -4)) para mayor cobertura.
+
+ID,Clase,Método,Descripción del Defecto,Severidad,Estado,Notas
+DF101,FactorialRecursivo,factorial,Conflictos de fusión sin resolver (marcas =======, revisión_error_calculo, main),Alta,Abierto,Resolver manualmente los conflictos y consolidar la lógica correcta.
+DF102,FactorialRecursivo,factorial,Definición duplicada del método factorial con implementaciones distintas,Alta,Abierto,Unificar en una sola versión: recursiva con memorización o iterativa con bucle.
+DF103,FactorialRecursivo,factorial,La variable cache está definida en una versión pero no en la otra,Media,Abierto,Si se usa memorización, asegurar que cache esté correctamente declarada y utilizada.
+DF104,FactorialRecursivo,factorial,El método iterativo ignora la cache y los casos base,Media,Abierto,Agregar verificación de cache y casos base si se mantiene la versión iterativa.
+DF105,FactorialRecursivo,multiplicar,No se valida si p es negativo antes de llamar recursivamente,Media,Abierto,Aunque se maneja con negación, podría agregarse validación explícita para mayor claridad.
+DF106,FactorialRecursivo,main,Duplicación del método main con llamadas redundantes,Media,Abierto,Consolidar en una sola función main con pruebas claras y sin repeticiones.
+DF107,FactorialRecursivo,factorial,Importaciones duplicadas y desordenadas (BigInteger, HashMap, Map),Baja,Abierto,Limpiar las importaciones y dejar solo las necesarias.
