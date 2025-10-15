@@ -46,8 +46,8 @@ jobs:
           mvn -B -ntp
           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
-          -Dsonar.projectKey=<TU_PROJECT_KEY>
-          -Dsonar.organization=<TU_ORG>
+          -Dsonar.projectKey=<IvoLizMor_factorial_test_mvn>
+          -Dsonar.organization=<IvoLizMor>
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
