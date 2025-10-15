@@ -1,4 +1,4 @@
- a continuacion el pom.xml:
+pom.xml:
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.jupiter.version>5.11.0</junit.jupiter.version>
 
-        <!-- ✅ SONAR CONFIG -->
+        <!-- ✅ Configuración SonarCloud -->
         <sonar.projectKey>mi_organizacion_mi_proyecto</sonar.projectKey>
         <sonar.organization>mi_organizacion</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -26,7 +26,7 @@
 
     <!-- 📚 DEPENDENCIAS -->
     <dependencies>
-        <!-- JUnit 5 -->
+        <!-- ✅ JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -41,7 +41,7 @@
         <testSourceDirectory>Test</testSourceDirectory>
 
         <plugins>
-            <!-- ☑️ Compilador -->
+            <!-- ☑️ Compilador Java -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -52,7 +52,7 @@
                 </configuration>
             </plugin>
 
-            <!-- ☑️ Surefire (JUnit5 runner) -->
+            <!-- 🧪 JUnit Runner -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -62,7 +62,7 @@
                 </configuration>
             </plugin>
 
-            <!-- 📊 JaCoCo: Genera cobertura para Sonar -->
+            <!-- 📊 JaCoCo (Cobertura para SonarCloud) -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -83,7 +83,7 @@
                 </executions>
             </plugin>
 
-            <!-- ☑️ Sonar Maven Plugin -->
+            <!-- ☁️ Sonar Maven Plugin -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
