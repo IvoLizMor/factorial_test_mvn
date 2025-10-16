@@ -57,11 +57,10 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
-  deploy:
-    name: Deploy to Azure App Service
+    deploy:
+    name: Deploy to Azure Web App
     needs: build_test_and_sonar
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -70,15 +69,13 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: ${{ env.JAVA_VERSION }}
-          cache: 'maven'
+          java-version: '17'
 
-      - name: Build JAR (skip tests)
+      - name: Build (skip tests)
         run: mvn -B -DskipTests package
 
-      - name: Deploy to Azure
+      - name: Deploy to Azure Web App (via linked GitHub Action)
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          app-name: 'Fastest123'
           package: target/*.jar
