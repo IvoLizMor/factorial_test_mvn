@@ -2,68 +2,38 @@ name: CI/CD Java + SonarCloud + Azure
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-env:
-  JAVA_VERSION: '17'
-  SONAR_HOST_URL: 'https://sonarcloud.io'
+    branches:
+      - main
 
 jobs:
-  build_test_and_sonar:
-    name: Build, Test & SonarCloud
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: ${{ env.JAVA_VERSION }}
-          cache: 'maven'
+          java-version: '17'
+          distribution: 'microsoft'
 
-      - name: Build, Test & Generate Coverage
-        run: mvn -B clean verify jacoco:report
-
-      - name: Verify coverage report exists
-        run: ls -lh target/site/jacoco/jacoco.xml || echo "No coverage report found"
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
       - name: SonarCloud Scan
-        run: >
-          mvn -B
-          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=IvoLizMor_factorial_test_mvn
-          -Dsonar.organization=ivolizmor
-          -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
-          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  deploy:
-    name: Deploy to Azure Web App
-    needs: build_test_and_sonar
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
-      - name: Build JAR (skip tests)
-        run: mvn -B -DskipTests package
-
-      - name: Deploy to Azure Web App (linked from Azure)
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Fastest123'
-          package: '${{ github.workspace }}/target/factorial-app-1.0.0.jar'
+          app-name: 'Fastest123'   # ⚠️ reemplázalo si tu App Service tiene otro nombre
+          package: '${{ github.workspace }}/target/*.war'
