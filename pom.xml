@@ -29,7 +29,13 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
 <groupId>org.springframework.boot</groupId>
 <artifactId>spring-boot-starter</artifactId>
 </dependency>
- 
+           
+ <dependency>
+  <groupId>com.sparkjava</groupId>
+  <artifactId>spark-core</artifactId>
+  <version>2.9.4</version>
+</dependency>
+
     <!-- Starter para crear APIs REST -->
 <dependency>
 <groupId>org.springframework.boot</groupId>
