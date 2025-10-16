@@ -6,11 +6,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <!-- Esto le dice a Maven que herede toda la configuración de Spring Boot -->
+    <!-- Hereda configuración base de Spring Boot -->
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.3.4</version>
-    <relativePath/> <!-- busca automáticamente la versión correcta -->
+    <relativePath/>
   </parent>
 
   <groupId>com.grupo</groupId>
@@ -30,7 +30,7 @@
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
 
-    <!-- Starter para crear APIs REST -->
+    <!-- Starter para APIs REST -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -45,11 +45,12 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+    <!-- 🔹 Compila tanto la carpeta src como main/java -->
+    <sourceDirectory>${project.basedir}/src</sourceDirectory>
     <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
 
     <plugins>
-      <!-- Plugin oficial de Spring Boot -->
+      <!-- Plugin de Spring Boot -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -72,7 +73,7 @@
         </executions>
       </plugin>
 
-      <!-- Surefire configurado para detectar tests en /Test -->
+      <!-- Surefire configurado para carpeta /Test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
