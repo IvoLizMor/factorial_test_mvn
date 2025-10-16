@@ -1,82 +1,99 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+https://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
   <modelVersion>4.0.0</modelVersion>
-
+ 
+  <parent>
+<!-- Esto le dice a Maven que herede toda la configuración de Spring Boot -->
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-parent</artifactId>
+<version>3.3.4</version>
+<relativePath/> <!-- busca automáticamente la versión correcta -->
+</parent>
+ 
   <groupId>com.grupo</groupId>
-  <artifactId>factorial-app</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
-  <name>factorial-app</name>
-
+<artifactId>factorial-app</artifactId>
+<version>1.0.0</version>
+<packaging>jar</packaging>
+<name>factorial-app</name>
+ 
   <properties>
-    <java.version>17</java.version>
-  </properties>
-
+<java.version>17</java.version>
+</properties>
+ 
   <dependencies>
-    <!-- Spark Java (microframework web) -->
-    <dependency>
-      <groupId>com.sparkjava</groupId>
-      <artifactId>spark-core</artifactId>
-      <version>2.9.4</version>
-    </dependency>
-
-    <!-- JUnit 5 para pruebas -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>5.10.2</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
+<!-- Starter básico de Spring Boot -->
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter</artifactId>
+</dependency>
+ 
+    <!-- Starter para crear APIs REST -->
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+ 
+    <!-- Dependencias para pruebas unitarias -->
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-test</artifactId>
+<scope>test</scope>
+</dependency>
+</dependencies>
+ 
   <build>
-    <!-- Rutas personalizadas -->
-    <sourceDirectory>${project.basedir}/src</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
-
-    <plugins>
-      <!-- Compilador -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
-        <configuration>
-          <release>17</release>
-        </configuration>
-      </plugin>
-
-      <!-- Ejecutor de pruebas -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-
-      <!-- JaCoCo para cobertura -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
-        <executions>
-          <execution>
-            <goals><goal>prepare-agent</goal></goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>verify</phase>
-            <goals><goal>report</goal></goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
+<plugins>
+<!-- Plugin oficial de Spring Boot -->
+<plugin>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-maven-plugin</artifactId>
+</plugin>
+ 
+      <!-- JaCoCo para cobertura de pruebas (opcional) -->
+<plugin>
+<groupId>org.jacoco</groupId>
+<artifactId>jacoco-maven-plugin</artifactId>
+<version>0.8.11</version>
+<executions>
+<execution>
+<goals>
+<goal>prepare-agent</goal>
+</goals>
+</execution>
+<execution>
+<id>report</id>
+<phase>verify</phase>
+<goals>
+<goal>report</goal>
+</goals>
+</execution>
+</executions>
+</plugin>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-surefire-plugin</artifactId>
+<version>3.2.5</version>
+<configuration>
+<!-- 🔹 Le indicamos a Maven que los tests están en la carpeta Test -->
+<testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
+ 
+    <!-- 🔹 Ejecutar todos los archivos que terminen en Test.java -->
+<includes>
+<include>**/*Test.java</include>
+</includes>
+</configuration>
+</plugin>
+ 
+      <!-- SonarCloud (opcional, si lo estás usando) -->
+<plugin>
+<groupId>org.sonarsource.scanner.maven</groupId>
+<artifactId>sonar-maven-plugin</artifactId>
+<version>3.11.0.3922</version>
+</plugin>
+</plugins>
+</build>
+ 
 </project>
