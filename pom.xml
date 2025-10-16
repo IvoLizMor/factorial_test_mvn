@@ -72,6 +72,20 @@
           </execution>
         </executions>
       </plugin>
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>3.2.5</version>
+  <configuration>
+    <!-- 🔹 Le indicamos a Maven que los tests están en la carpeta Test -->
+    <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
+
+    <!-- 🔹 Ejecutar todos los archivos que terminen en Test.java -->
+    <includes>
+      <include>**/*Test.java</include>
+    </includes>
+  </configuration>
+</plugin>
 
       <!-- SonarCloud (opcional, si lo estás usando) -->
       <plugin>
