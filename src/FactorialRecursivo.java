@@ -3,6 +3,7 @@ package com.example;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+import static spark.Spark.*;
 
 public class FactorialRecursivo {
 
@@ -39,9 +40,26 @@ public class FactorialRecursivo {
     }
 
     public static void main(String[] args) {
+
+        // --- Parte 1: Ejecución local por consola ---
         System.out.println("Factorial de 20: " + factorial(20));
         System.out.println("Factorial de 50: " + factorial(50));
         System.out.println("Factorial de 100: " + factorial(100));
         System.out.println("Multiplicación de -3 * -4: " + multiplicar(-3, -4));
+
+        // --- Parte 2: Servidor web para Azure ---
+        port(8080); // Azure App Service usa este puerto
+
+        get("/", (req, res) -> {
+            return """
+                    <h2>Aplicación desplegada correctamente en Azure 🚀</h2>
+                    <p><strong>Factorial de 10:</strong> """ + factorial(10) + "</p>" +
+                   "<p><strong>Multiplicación -3 * -4:</strong> " + multiplicar(-3, -4) + "</p>";
+        });
+
+        get("/factorial/:n", (req, res) -> {
+            int n = Integer.parseInt(req.params(":n"));
+            return "Factorial de " + n + " = " + factorial(n);
+        });
     }
 }
