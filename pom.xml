@@ -44,7 +44,8 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
 </dependency>
 </dependencies>
  
- <build>
+ 
+<build>
   <plugins>
     <!-- Plugin oficial de Spring Boot -->
     <plugin>
@@ -73,12 +74,24 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
       </executions>
     </plugin>
 
-    <!-- 🔧 Plugin para incluir carpeta personalizada de tests -->
+    <!-- 🔧 Incluir carpetas personalizadas como fuentes -->
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>build-helper-maven-plugin</artifactId>
       <version>3.4.0</version>
       <executions>
+        <execution>
+          <id>add-source</id>
+          <phase>generate-sources</phase>
+          <goals>
+            <goal>add-source</goal>
+          </goals>
+          <configuration>
+            <sources>
+              <source>${project.basedir}/src</source>
+            </sources>
+          </configuration>
+        </execution>
         <execution>
           <id>add-test-source</id>
           <phase>generate-test-sources</phase>
@@ -114,6 +127,6 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
     </plugin>
   </plugins>
 </build>
- 
+
  
 </project>
