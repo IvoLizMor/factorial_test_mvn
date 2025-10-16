@@ -7,13 +7,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FactorialController {
 
-    @GetMapping("/factorial")
-    public String calcular(@RequestParam int numero) {
-        return "El factorial de " + numero + " es: " + factorial(numero);
+    @GetMapping("/")
+    public String home() {
+        return "✅ Aplicación de Factorial corriendo correctamente en Azure!";
     }
 
-    private long factorial(int n) {
+    @GetMapping("/factorial")
+    public String factorial(@RequestParam(name = "n", defaultValue = "5") int n) {
+        if (n < 0) {
+            return "El número debe ser no negativo.";
+        }
+        return "El factorial de " + n + " es " + factorialRecursivo(n);
+    }
+
+    private long factorialRecursivo(int n) {
         if (n <= 1) return 1;
-        return n * factorial(n - 1);
+        return n * factorialRecursivo(n - 1);
     }
 }
