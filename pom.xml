@@ -23,11 +23,10 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <java.version>17</java.version>
 
   <!-- SonarCloud integration -->
-  <sonar.organization>tu-organizacion-en-sonarcloud</sonar.organization>
-  <sonar.projectKey>tuProyecto_factorial_test_mvn</sonar.projectKey>
+  <sonar.organization>ivolizmor</sonar.organization>
+  <sonar.projectKey>IvoLizMor_factorial_test_mvn</sonar.projectKey>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 </properties>
-
  
   <dependencies>
 <!-- Starter básico de Spring Boot -->
