@@ -9,7 +9,21 @@ public class FactorialController {
 
     @GetMapping("/")
     public String home() {
-        return "✅ Aplicación de Factorial corriendo correctamente en Azure!";
+        return """
+            <html>
+                <head>
+                    <title>Calculadora de Factorial</title>
+                </head>
+                <body>
+                    <h2>✅ Aplicación de Factorial corriendo correctamente en Azure!</h2>
+                    <form action="/factorial" method="get">
+                        <label for="n">Ingresa un número:</label>
+                        <input type="number" id="n" name="n" min="0" required>
+                        <input type="submit" value="Calcular factorial">
+                    </form>
+                </body>
+            </html>
+            """;
     }
 
     @GetMapping("/factorial")
