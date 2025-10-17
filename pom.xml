@@ -16,7 +16,7 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <groupId>com.grupo</groupId>
 <artifactId>factorial-app</artifactId>
 <version>1.0.0</version>
-<packaging>jar</packaging>
+<packaging>war</packaging>
 <name>factorial-app</name>
  
 <properties>
@@ -28,12 +28,13 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 </properties>
  
-  <dependencies>
-<!-- Starter básico de Spring Boot -->
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter</artifactId>
-</dependency>
+    <!-- Soporte para desplegar en servidores Tomcat -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
+    </dependency>
+
            
  <dependency>
   <groupId>com.sparkjava</groupId>
@@ -57,11 +58,28 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
  
  
 <build>
+  <!-- Nombre final del archivo WAR -->
+  <finalName>factorial-app</finalName>
+
   <plugins>
-    <!-- Plugin oficial de Spring Boot -->
+
+    <!-- Plugin oficial de Spring Boot configurado para empaquetar WAR -->
     <plugin>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-maven-plugin</artifactId>
+      <configuration>
+        <layout>WAR</layout> <!-- 🔹 genera WAR en lugar de JAR -->
+      </configuration>
+    </plugin>
+
+    <!-- Plugin WAR clásico de Maven (refuerza compatibilidad Tomcat) -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>3.3.2</version>
+      <configuration>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+      </configuration>
     </plugin>
 
     <!-- JaCoCo para cobertura de pruebas -->
@@ -85,7 +103,7 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
       </executions>
     </plugin>
 
-    <!-- 🔧 Incluir carpetas personalizadas como fuentes -->
+    <!-- Incluir carpetas personalizadas como fuentes -->
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>build-helper-maven-plugin</artifactId>
@@ -117,6 +135,29 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
         </execution>
       </executions>
     </plugin>
+
+    <!-- Plugin para ejecutar los tests -->
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.2.5</version>
+      <configuration>
+        <includes>
+          <include>**/*Test.java</include>
+        </includes>
+      </configuration>
+    </plugin>
+
+    <!-- SonarCloud (opcional) -->
+    <plugin>
+      <groupId>org.sonarsource.scanner.maven</groupId>
+      <artifactId>sonar-maven-plugin</artifactId>
+      <version>3.11.0.3922</version>
+    </plugin>
+
+  </plugins>
+</build>
+
 
     <!-- Plugin para ejecutar los tests -->
     <plugin>
