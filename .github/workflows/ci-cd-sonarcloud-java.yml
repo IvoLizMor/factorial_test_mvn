@@ -25,14 +25,16 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Build, Test & Analyze on SonarCloud
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn -B clean verify jacoco:report sonar:sonar \
-            -Dsonar.organization=ivolizmor \
-            -Dsonar.projectKey=ivolizmor_factorial-app \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+- name: SonarCloud Scan
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  run: |
+    mvn -B clean verify jacoco:report sonar:sonar \
+      -Dsonar.organization=ivolizmor \
+      -Dsonar.projectKey=ivolizmor_factorial-app \
+      -Dsonar.host.url=https://sonarcloud.io \
+      -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+      -Dsonar.branch.name=main \
+      -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
