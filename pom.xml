@@ -21,10 +21,11 @@
 
   <!-- Propiedades generales -->
   <properties>
-    <java.version>17</java.version>
-    <sonar.organization>ivolizmor</sonar.organization>
-    <sonar.projectKey>IvoLizMor_factorial_test_mvn</sonar.projectKey>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+<sonar.organization>ivolizmor</sonar.organization>
+<sonar.projectKey>factorial-app</sonar.projectKey>
+<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
   </properties>
 
   <!-- Dependencias -->
