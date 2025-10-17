@@ -1,147 +1,150 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-https://maven.apache.org/xsd/maven-4.0.0.xsd">
- 
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
- 
+
+  <!-- Herencia de configuración desde Spring Boot -->
   <parent>
-<!-- Esto le dice a Maven que herede toda la configuración de Spring Boot -->
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-parent</artifactId>
-<version>3.3.4</version>
-<relativePath/> <!-- busca automáticamente la versión correcta -->
-</parent>
- 
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.4</version>
+    <relativePath/>
+  </parent>
+
   <groupId>com.grupo</groupId>
-<artifactId>factorial-app</artifactId>
-<version>1.0.0</version>
-<packaging>jar</packaging>
-<name>factorial-app</name>
- 
+  <artifactId>factorial-app</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <name>factorial-app</name>
+
   <properties>
-<java.version>17</java.version>
-</properties>
- 
+    <java.version>17</java.version>
+  </properties>
+
   <dependencies>
-<!-- Starter básico de Spring Boot -->
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter</artifactId>
-</dependency>
-           
- <dependency>
-  <groupId>com.sparkjava</groupId>
-  <artifactId>spark-core</artifactId>
-  <version>2.9.4</version>
-</dependency>
+
+    <!-- Starter básico de Spring Boot -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- Spark Java -->
+    <dependency>
+      <groupId>com.sparkjava</groupId>
+      <artifactId>spark-core</artifactId>
+      <version>2.9.4</version>
+    </dependency>
 
     <!-- Starter para crear APIs REST -->
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-web</artifactId>
-</dependency>
- 
-    <!-- Dependencias para pruebas unitarias -->
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-test</artifactId>
-<scope>test</scope>
-</dependency>
-</dependencies>
- 
- 
-<build>
-  <plugins>
-    <!-- Plugin oficial de Spring Boot -->
-    <plugin>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-maven-plugin</artifactId>
-    </plugin>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
 
-<!-- JaCoCo para cobertura de pruebas -->
-<plugin>
-  <groupId>org.jacoco</groupId>
-  <artifactId>jacoco-maven-plugin</artifactId>
-  <version>0.8.11</version>
-  <executions>
-    <execution>
-      <id>prepare-agent</id>
-      <goals>
-        <goal>prepare-agent</goal>
-      </goals>
-    </execution>
-    <execution>
-      <id>report</id>
-      <phase>verify</phase>
-      <goals>
-        <goal>report</goal>
-      </goals>
-      <configuration>
-        <outputDirectory>${project.basedir}/target/site/jacoco</outputDirectory>
-        <reports>
-          <xml enabled="true"/>
-          <html enabled="true"/>
-        </reports>
-      </configuration>
-    </execution>
-  </executions>
-</plugin>
+    <!-- Dependencias para pruebas unitarias -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
+  </dependencies>
 
-    <!-- 🔧 Incluir carpetas personalizadas como fuentes -->
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>build-helper-maven-plugin</artifactId>
-      <version>3.4.0</version>
-      <executions>
-        <execution>
-          <id>add-source</id>
-          <phase>generate-sources</phase>
-          <goals>
-            <goal>add-source</goal>
-          </goals>
-          <configuration>
-            <sources>
-              <source>${project.basedir}/src</source>
-            </sources>
-          </configuration>
-        </execution>
-        <execution>
-          <id>add-test-source</id>
-          <phase>generate-test-sources</phase>
-          <goals>
-            <goal>add-test-source</goal>
-          </goals>
-          <configuration>
-            <sources>
-              <source>${project.basedir}/Test</source>
-            </sources>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
+  <build>
+    <plugins>
 
-    <!-- Plugin para ejecutar los tests -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>3.2.5</version>
-      <configuration>
-        <includes>
-          <include>**/*Test.java</include>
-        </includes>
-      </configuration>
-    </plugin>
+      <!-- Plugin oficial de Spring Boot -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
 
-    <!-- SonarCloud (opcional) -->
-    <plugin>
-      <groupId>org.sonarsource.scanner.maven</groupId>
-      <artifactId>sonar-maven-plugin</artifactId>
-      <version>3.11.0.3922</version>
-    </plugin>
-  </plugins>
-</build>
+      <!-- JaCoCo para cobertura de pruebas -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.11</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/target/site/jacoco</outputDirectory>
+              <reports>
+                <xml enabled="true"/>
+                <html enabled="true"/>
+              </reports>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
- 
+      <!-- 🔧 Incluir carpetas personalizadas como fuentes -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.basedir}/src</source>
+              </sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.basedir}/Test</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Plugin para ejecutar los tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
+        </configuration>
+      </plugin>
+
+      <!-- SonarCloud -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.11.0.3922</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>
