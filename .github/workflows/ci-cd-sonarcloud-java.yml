@@ -1,31 +1,34 @@
-name: CI/CD Java + SonarCloud + Azure
+name: SonarCloud - Java Tests Only
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  sonarcloud:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para que SonarCloud vea todo el historial de commits
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
           java-version: '17'
-          distribution: 'microsoft'
+          cache: 'maven'
 
-      - name: Build with Maven
-        run: mvn -B clean verify jacoco:report
-
-      - name: SonarCloud Scan
+      - name: Build, Test & Analyze on SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B clean verify jacoco:report sonar:sonar \
             -Dsonar.organization=ivolizmor \
@@ -33,14 +36,3 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
-
-
-
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'Fastest123'   # nombre exacto de tu App Service
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '${{ github.workspace }}/target/*.jar'
