@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necesario para que SonarCloud vea todo el historial de commits
+          fetch-depth: 0  # necesario para que Sonar vea el historial de commits
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -25,16 +25,20 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-- name: SonarCloud Scan
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  run: |
-    mvn -B clean verify jacoco:report sonar:sonar \
-      -Dsonar.organization=ivolizmor \
-      -Dsonar.projectKey=ivolizmor_factorial-app \
-      -Dsonar.host.url=https://sonarcloud.io \
-      -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-      -Dsonar.branch.name=main \
-      -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+      - name: Run Tests and Generate JaCoCo Report
+        run: mvn -B clean test jacoco:report
+
+      - name: SonarCloud Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B verify sonar:sonar \
+            -Dsonar.organization=ivolizmor \
+            -Dsonar.projectKey=ivolizmor_factorial-app \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.branch.name=main \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
 
