@@ -48,13 +48,19 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
 <artifactId>spring-boot-starter-web</artifactId>
 </dependency>
  
-    <!-- Dependencias para pruebas unitarias -->
+<!-- Dependencias de test -->
 <dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-test</artifactId>
-<scope>test</scope>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-test</artifactId>
+  <scope>test</scope>
+  <exclusions>
+    <exclusion>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+    </exclusion>
+  </exclusions>
 </dependency>
-</dependencies>
+
  
  
 <build>
@@ -82,26 +88,31 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
       </configuration>
     </plugin>
 
-    <!-- JaCoCo para cobertura de pruebas -->
-    <plugin>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.11</version>
-      <executions>
-        <execution>
-          <goals>
-            <goal>prepare-agent</goal>
-          </goals>
-        </execution>
-        <execution>
-          <id>report</id>
-          <phase>verify</phase>
-          <goals>
-            <goal>report</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
+<plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.8.11</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>prepare-agent</goal>
+      </goals>
+    </execution>
+    <execution>
+      <id>report</id>
+      <phase>verify</phase>
+      <goals>
+        <goal>report</goal>
+      </goals>
+      <configuration>
+        <reports>
+          <report>xml</report>
+        </reports>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+
 
     <!-- Incluir carpetas personalizadas como fuentes -->
     <plugin>
