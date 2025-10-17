@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Unshallow repository
+        run: git fetch --unshallow
+
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
@@ -30,7 +33,7 @@ jobs:
             -Dsonar.projectKey=IvoLizMor_factorial_test_mvn \
             -Dsonar.organization=ivolizmor \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
             -Dsonar.java.binaries=target/classes \
             -Dsonar.junit.reportPaths=target/surefire-reports
@@ -68,5 +71,3 @@ jobs:
           app-name: 'Factorial-recursivo-grupo'
           slot-name: 'Production'
           package: '*.jar'
-
-
