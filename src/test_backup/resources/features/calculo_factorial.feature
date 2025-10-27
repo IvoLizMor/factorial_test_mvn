@@ -1,26 +1,24 @@
 # language: es
+Característica: Cálculo de factorial válido
+  Como usuario de la aplicación
+  Quiero ingresar un número entero positivo
+  Para obtener el resultado de su factorial
 
-Característica: Cálculo del factorial  
-Para conocer el factorial de un número entero positivo  
-Como usuario de la aplicación  
-Quiero ingresar un número entero positivo  
-Para obtener el resultado de su factorial
+  Antecedentes:
+    Dado que la aplicación está en funcionamiento
 
-Escenario: Cálculo exitoso del factorial  
-Dado que ingreso el número entero positivo "5"  
-Cuando se calcula el factorial mediante una función recursiva  
-Entonces se muestra en pantalla el mensaje "La factorial de 5 es 120"
+  Escenario: Calcular el factorial de un número entero positivo
+    Dado que ingreso el número 5
+    Cuando solicito calcular su factorial
+    Entonces veo en pantalla "El factorial de 5 es 120"
 
-Escenario: Cálculo del factorial de cero  
-Dado que ingreso el número "0"  
-Cuando se calcula el factorial mediante una función recursiva  
-Entonces se muestra en pantalla el mensaje "La factorial de 0 es 1"
+  Escenario: Ingreso de número no válido
+    Dado que ingreso el número -3
+    Cuando solicito calcular su factorial
+    Entonces veo un mensaje de error que indica "Ingrese un número entero positivo"
 
-Escenario: Número negativo no permitido  
-Dado que ingreso el número "-3"  
-Entonces se muestra un mensaje de error indicando que solo se aceptan enteros positivos
-
-Escenario: Número fuera del rango permitido  
-Dado que ingreso un número mayor al máximo permitido por tipo long  
-Entonces se muestra un mensaje de error indicando que el número excede el rango permitido
-
+  Escenario: Cálculo mediante función recursiva
+    Dado que ingreso el número 4
+    Cuando se calcula el factorial internamente
+    Entonces la función utilizada debe ser recursiva
+    Y el resultado mostrado debe ser "El factorial de 4 es 24"
