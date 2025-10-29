@@ -12,26 +12,29 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class FactorialRecursivoTest {
 
+    // Instancia única reutilizada para todos los tests
+    private final FactorialRecursivo factorial = new FactorialRecursivo();
+
     // 🔹 Tests para multiplicar
     @Test
     void testMultiplicarCasoBase() {
-        assertEquals(7, FactorialRecursivo.multiplicar(7, 1));
+        assertEquals(7, factorial.multiplicar(7, 1));
     }
 
     @Test
     void testMultiplicarPorCero() {
-        assertEquals(0, FactorialRecursivo.multiplicar(7, 0));
+        assertEquals(0, factorial.multiplicar(7, 0));
     }
 
     @Test
     void testMultiplicarNumeroNormal() {
-        assertEquals(12, FactorialRecursivo.multiplicar(3, 4));
+        assertEquals(12, factorial.multiplicar(3, 4));
     }
 
     @Test
     void testMultiplicarConNegativo() {
-        assertEquals(-12, FactorialRecursivo.multiplicar(-3, 4));
-        assertEquals(12, FactorialRecursivo.multiplicar(-3, -4));
+        assertEquals(-12, factorial.multiplicar(-3, 4));
+        assertEquals(12, factorial.multiplicar(-3, -4));
     }
 
     // 🔹 Tests paramétricos para factorial con valores correctos
@@ -44,7 +47,7 @@ public class FactorialRecursivoTest {
         "10, 3628800"
     })
     void testFactorialValoresValidos(int n, long esperado) {
-        assertEquals(BigInteger.valueOf(esperado), FactorialRecursivo.factorial(n));
+        assertEquals(BigInteger.valueOf(esperado), factorial.factorial(n));
     }
 
     // 🔹 Tests para factorial con valores negativos (espera excepción)
@@ -52,7 +55,7 @@ public class FactorialRecursivoTest {
     @ValueSource(ints = {-1, -3, -10})
     void testFactorialNegativos(int n) {
         assertThrows(IllegalArgumentException.class, () -> {
-            FactorialRecursivo.factorial(n);
+            factorial.factorial(n);
         });
     }
 
@@ -60,21 +63,21 @@ public class FactorialRecursivoTest {
     @Test
     void testFactorialGrande() {
         BigInteger esperado = new BigInteger("2432902008176640000");
-        assertEquals(esperado, FactorialRecursivo.factorial(20));
+        assertEquals(esperado, factorial.factorial(20));
     }
 
     // 🔹 Test de rendimiento
     @Test
     void testPerformanceFactorial() {
         assertTimeout(Duration.ofMillis(100), () -> {
-            FactorialRecursivo.factorial(15);
+            factorial.factorial(15);
         });
     }
 
     // 🔹 Test para factorial de número muy grande (sin desbordamiento)
     @Test
     void testFactorialMuyGrande() {
-        BigInteger resultado = FactorialRecursivo.factorial(100);
+        BigInteger resultado = factorial.factorial(100);
         assertTrue(resultado.compareTo(BigInteger.ZERO) > 0);
     }
 }
