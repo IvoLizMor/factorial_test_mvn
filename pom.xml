@@ -5,7 +5,10 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Herencia desde Spring Boot -->
+  <!-- =============================================================== -->
+  <!--          PROYECTO SPRING BOOT + CUCUMBER + JUNIT5               -->
+  <!-- =============================================================== -->
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -30,7 +33,7 @@
   <!-- =============================================================== -->
   <dependencies>
 
-    <!-- JUnit Platform Suite (para @Suite y @SelectClasspathResource) -->
+    <!-- JUnit Platform Suite API -->
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-suite</artifactId>
@@ -38,7 +41,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Cucumber + JUnit 5 -->
+    <!-- Cucumber + JUnit5 -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
@@ -53,7 +56,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- JUnit Jupiter API -->
+    <!-- JUnit Jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -61,7 +64,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Starter básico de Spring Boot -->
+    <!-- Spring Boot básico -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
@@ -74,13 +77,13 @@
       <version>2.9.4</version>
     </dependency>
 
-    <!-- Starter para APIs REST -->
+    <!-- API REST -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Starter de pruebas Spring Boot -->
+    <!-- Pruebas Spring Boot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -93,21 +96,19 @@
   <!--                             BUILD                              -->
   <!-- =============================================================== -->
   <build>
-    <!-- Tu código fuente está en src/, no en src/main/java -->
+    <!-- Tu fuente principal está en src/, no en src/main/java -->
     <sourceDirectory>${project.basedir}/src</sourceDirectory>
 
     <plugins>
 
-      <!-- =========================================================== -->
-      <!--      Spring Boot Maven Plugin (para empaquetar y correr)    -->
-      <!-- =========================================================== -->
+      <!-- Spring Boot -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
       <!-- =========================================================== -->
-      <!--      JaCoCo - cobertura de pruebas                          -->
+      <!-- JaCoCo: cobertura de pruebas -->
       <!-- =========================================================== -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -138,7 +139,7 @@
       </plugin>
 
       <!-- =========================================================== -->
-      <!--      Build Helper - para incluir carpetas personalizadas    -->
+      <!-- Build Helper: incluye directorios personalizados -->
       <!-- =========================================================== -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -150,9 +151,7 @@
           <execution>
             <id>add-source</id>
             <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
+            <goals><goal>add-source</goal></goals>
             <configuration>
               <sources>
                 <source>${project.basedir}/src</source>
@@ -160,13 +159,11 @@
             </configuration>
           </execution>
 
-          <!-- Código de prueba -->
+          <!-- Carpeta Test/ -->
           <execution>
             <id>add-test-source</id>
             <phase>generate-test-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
+            <goals><goal>add-test-source</goal></goals>
             <configuration>
               <sources>
                 <source>${project.basedir}/Test</source>
@@ -174,33 +171,11 @@
             </configuration>
           </execution>
 
-          <!-- Archivos .feature -->
-          <execution>
-            <id>add-test-resource</id>
-            <phase>generate-test-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/src/test_backup/resources/features</directory>
-                  <targetPath>features</targetPath>
-                  <includes>
-                    <include>**/*.feature</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-
-          <!-- Copia forzada de los features al classpath -->
+          <!-- Copia los .feature al classpath antes de ejecutar tests -->
           <execution>
             <id>copy-feature-files</id>
-            <phase>process-test-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
+            <phase>prepare-package</phase> <!-- 👈 fase crítica -->
+            <goals><goal>add-test-resource</goal></goals>
             <configuration>
               <resources>
                 <resource>
@@ -218,7 +193,7 @@
       </plugin>
 
       <!-- =========================================================== -->
-      <!--      Surefire Plugin - ejecución de pruebas                 -->
+      <!-- Surefire: ejecuta los tests de JUnit5/Cucumber -->
       <!-- =========================================================== -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -241,7 +216,7 @@
       </plugin>
 
       <!-- =========================================================== -->
-      <!--      SonarCloud - análisis estático                         -->
+      <!-- SonarCloud -->
       <!-- =========================================================== -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
