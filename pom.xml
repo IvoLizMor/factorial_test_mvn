@@ -121,18 +121,6 @@
         <version>3.4.0</version>
         <executions>
           <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.basedir}/src</source>
-              </sources>
-            </configuration>
-          </execution>
-          <execution>
             <id>add-test-source</id>
             <phase>generate-test-sources</phase>
             <goals>
@@ -144,8 +132,25 @@
               </sources>
             </configuration>
           </execution>
-        </executions>
-      </plugin>
+          <execution>
+            <id>add-test-resource</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/test_backup/resources</directory>
+                  <includes>
+                   <include>**/*.feature</include>
+                  </includes>
+                 </resource>
+                </resources>
+               </configuration>
+              </execution>
+            </executions>
+         </plugin>
          <!-- Incluir carpeta test_backup/resources en el classpath -->
       <plugin>
          <groupId>org.codehaus.mojo</groupId>
@@ -170,7 +175,7 @@
          </configuration>
          </execution>
          </executions>
-</plugin>
+   </plugin>
 
       <!-- Plugin para ejecutar los tests -->
       <plugin>
@@ -189,7 +194,7 @@
               <cucumber.plugin>pretty, html:target/cucumber-report.html</cucumber.plugin> 
               <junit.platform.listeners.default>true</junit.platform.listeners.default>
             </systemPropertyVariables>
-            <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
+            <!--<testSourceDirectory>${project.basedir}/Test</testSourceDirectory> -->
           </configuration>
       </plugin>
       <!-- SonarCloud -->
