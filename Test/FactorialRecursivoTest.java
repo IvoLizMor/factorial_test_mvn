@@ -1,6 +1,4 @@
-package test;
-
-import com.grupo.FactorialRecursivo
+import com.grupo.FactorialRecursivo;
 import java.math.BigInteger;
 import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
