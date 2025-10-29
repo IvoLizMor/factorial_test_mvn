@@ -115,67 +115,63 @@
       </plugin>
 
       <!-- 🔧 Incluir carpetas personalizadas como fuentes -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.4.0</version>
-        <executions>
-          <execution>
-            <id>add-test-source</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.basedir}/src</source>
-              </sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-test-resource</id>
-            <phase>generate-test-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/src/test_backup/resources</directory>
-                  <includes>
-                   <include>**/*.feature</include>
-                  </includes>
-                 </resource>
-                </resources>
-               </configuration>
-              </execution>
-            </executions>
-         </plugin>
-         <!-- Incluir carpeta test_backup/resources en el classpath -->
-      <plugin>
-         <groupId>org.codehaus.mojo</groupId>
-         <artifactId>build-helper-maven-plugin</artifactId>
-         <version>3.4.0</version>
-         <executions>
-         <execution>
-         <id>add-test-resource</id>
-         <phase>generate-test-resources</phase>
-         <goals>
-         <goal>add-test-resource</goal>
-         </goals>
-         <configuration>
-         <resources>
-         <resource>
-         <directory>${project.basedir}/src/test_backup/resources</directory>
-         <includes>
-          <include>**/*.feature</include>
-         </includes>
-         </resource>
-         </resources>
-         </configuration>
-         </execution>
-         </executions>
-   </plugin>
+<plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-maven-plugin</artifactId>
+  <version>3.4.0</version>
+  <executions>
+
+    <!-- 🔹 Agregar solo las fuentes principales -->
+    <execution>
+      <id>add-source</id>
+      <phase>generate-sources</phase>
+      <goals>
+        <goal>add-source</goal>
+      </goals>
+      <configuration>
+        <sources>
+          <source>${project.basedir}/src/main/java</source>
+        </sources>
+      </configuration>
+    </execution>
+
+    <!-- 🔹 Agregar solo las fuentes de test -->
+    <execution>
+      <id>add-test-source</id>
+      <phase>generate-test-sources</phase>
+      <goals>
+        <goal>add-test-source</goal>
+      </goals>
+      <configuration>
+        <sources>
+          <source>${project.basedir}/Test</source>
+        </sources>
+      </configuration>
+    </execution>
+
+    <!-- 🔹 Agregar recursos de test (tus .feature) -->
+    <execution>
+      <id>add-test-resource</id>
+      <phase>generate-test-resources</phase>
+      <goals>
+        <goal>add-test-resource</goal>
+      </goals>
+      <configuration>
+        <resources>
+          <resource>
+            <directory>${project.basedir}/src/test_backup/resources</directory>
+            <includes>
+              <include>**/*.feature</include>
+            </includes>
+          </resource>
+        </resources>
+      </configuration>
+    </execution>
+
+  </executions>
+</plugin>
+
+
 
       <!-- Plugin para ejecutar los tests -->
       <plugin>
