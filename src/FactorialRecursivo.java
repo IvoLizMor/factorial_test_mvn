@@ -1,5 +1,3 @@
-package src;
-
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
