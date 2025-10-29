@@ -161,7 +161,9 @@
               <cucumber.features>${project.basedir}/src/test_backup/resources/features</cucumber.features>
 <!-- Ruta donde están los step definitions -->
               <cucumber.glue>com.grupo</cucumber.glue>
+              <cucumber.plugin>pretty, html:target/cucumber-report.html</cucumber.plugin>      
             </systemPropertyVariables>
+            <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
           </configuration>
       </plugin>
       <!-- SonarCloud -->
