@@ -149,17 +149,21 @@
 
       <!-- Plugin para ejecutar los tests -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
-          <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
-        </configuration>
+         <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+           <version>3.2.5</version>
+            <configuration>
+             <includes>
+              <include>**/*Test.java</include>
+             </includes>
+             <systemPropertyVariables>
+<!-- Ruta donde están los features -->
+              <cucumber.features>${project.basedir}/src/test_backup/resources/features</cucumber.features>
+<!-- Ruta donde están los step definitions -->
+              <cucumber.glue>com.grupo</cucumber.glue>
+            </systemPropertyVariables>
+          </configuration>
       </plugin>
-
       <!-- SonarCloud -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
