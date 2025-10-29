@@ -113,15 +113,14 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- 🔧 Incluir carpetas personalizadas como fuentes -->
-<plugin>
+        
+             <plugin>
   <groupId>org.codehaus.mojo</groupId>
   <artifactId>build-helper-maven-plugin</artifactId>
   <version>3.4.0</version>
   <executions>
 
-    <!-- 🔹 Agregar solo las fuentes principales -->
+    <!-- Asegura que src/main/java se incluya en las fuentes principales -->
     <execution>
       <id>add-source</id>
       <phase>generate-sources</phase>
@@ -135,7 +134,7 @@
       </configuration>
     </execution>
 
-    <!-- 🔹 Agregar solo las fuentes de test -->
+    <!-- Asegura que la carpeta Test sea tratada como test source -->
     <execution>
       <id>add-test-source</id>
       <phase>generate-test-sources</phase>
@@ -149,7 +148,7 @@
       </configuration>
     </execution>
 
-    <!-- 🔹 Agregar recursos de test (tus .feature) -->
+    <!-- Incluye los .feature -->
     <execution>
       <id>add-test-resource</id>
       <phase>generate-test-resources</phase>
@@ -170,7 +169,6 @@
 
   </executions>
 </plugin>
-
 
 
       <!-- Plugin para ejecutar los tests -->
