@@ -5,7 +5,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Herencia de configuración desde Spring Boot -->
+  <!-- Herencia desde Spring Boot -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -25,37 +25,40 @@
     <junit.version>5.10.2</junit.version>
   </properties>
 
+  <!-- ======================== DEPENDENCIAS ======================== -->
   <dependencies>
- <!-- JUnit Platform Suite (anotaciones @Suite, @SelectClasspathResource, etc.) -->
-<dependency>
-  <groupId>org.junit.platform</groupId>
-  <artifactId>junit-platform-suite</artifactId>
-  <version>1.10.2</version>
-  <scope>test</scope>
-</dependency>
 
+    <!-- Suite Platform API (para @Suite y @SelectClasspathResource) -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-suite</artifactId>
+      <version>1.10.2</version>
+      <scope>test</scope>
+    </dependency>
 
-  <!-- Cucumber + JUnit5 -->
-  <dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-java</artifactId>
-    <version>${cucumber.version}</version>
-    <scope>test</scope>
-  </dependency>
-  
-  <dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-junit-platform-engine</artifactId>
-    <version>${cucumber.version}</version>
-    <scope>test</scope>
-  </dependency>
-  <!-- JUnit Jupiter API -->
-  <dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter-api</artifactId>
-    <version>${junit.version}</version>
-    <scope>test</scope>
-  </dependency>
+    <!-- Cucumber + JUnit5 -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit-platform-engine</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- JUnit Jupiter API -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <!-- Starter básico de Spring Boot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -84,7 +87,10 @@
 
   </dependencies>
 
+  <!-- ======================== BUILD CONFIG ======================== -->
   <build>
+    <sourceDirectory>${project.basedir}/src</sourceDirectory>
+
     <plugins>
 
       <!-- Plugin oficial de Spring Boot -->
@@ -93,7 +99,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
-      <!-- JaCoCo para cobertura de pruebas -->
+      <!-- JaCoCo: cobertura de pruebas -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -121,85 +127,76 @@
           </execution>
         </executions>
       </plugin>
-        
-<plugin>
-  <groupId>org.codehaus.mojo</groupId>
-  <artifactId>build-helper-maven-plugin</artifactId>
-  <version>3.4.0</version>
-  <executions>
-    <!-- MAIN sources: incluye la carpeta 'src/' como código principal -->
-    <execution>
-      <id>add-source</id>
-      <phase>generate-sources</phase>
-      <goals>
-        <goal>add-source</goal>
-      </goals>
-      <configuration>
-        <sources>
-          <source>${project.basedir}/src</source>
-        </sources>
-      </configuration>
-    </execution>
 
-    <!-- TEST sources: tu carpeta 'Test' como código de prueba -->
-    <execution>
-      <id>add-test-source</id>
-      <phase>generate-test-sources</phase>
-      <goals>
-        <goal>add-test-source</goal>
-      </goals>
-      <configuration>
-        <sources>
-          <source>${project.basedir}/Test</source>
-        </sources>
-      </configuration>
-    </execution>
-
-     <execution>
-  <id>add-test-resource</id>
-  <phase>generate-test-resources</phase>
-  <goals>
-    <goal>add-test-resource</goal>
-  </goals>
-  <configuration>
-    <resources>
-      <resource>
-        <!-- 🔹 Directorio real donde tienes tus .feature -->
-        <directory>${project.basedir}/src/test_backup/resources/features</directory>
-
-        <!-- 🔹 Copia a una ruta dentro del classpath (Cucumber la reconocerá) -->
-        <targetPath>features</targetPath>
-
-        <includes>
-          <include>**/*.feature</include>
-        </includes>
-      </resource>
-    </resources>
-  </configuration>
-</execution>
-
-
-
-      <!-- Plugin para ejecutar los tests -->
+      <!-- Build Helper: incluye directorios personalizados -->
       <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-           <version>3.2.5</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+
+          <!-- MAIN sources -->
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
             <configuration>
-             <includes>
-              <include>**/*Test.java</include>
-             </includes>
-             <systemPropertyVariables>
-<!-- Ruta donde están los features -->
-              <cucumber.features>${project.basedir}/src/test_backup/resources/features</cucumber.features>
-<!-- Ruta donde están los step definitions -->
-              <cucumber.glue>com,com.grupo</cucumber.glue>
-              <cucumber.plugin>pretty, html:target/cucumber-report.html</cucumber.plugin> 
-              <junit.platform.listeners.default>true</junit.platform.listeners.default>
-            </systemPropertyVariables>
-            <!--<testSourceDirectory>${project.basedir}/Test</testSourceDirectory> -->
-          </configuration>
+              <sources>
+                <source>${project.basedir}/src</source>
+              </sources>
+            </configuration>
+          </execution>
+
+          <!-- TEST sources -->
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.basedir}/Test</source>
+              </sources>
+            </configuration>
+          </execution>
+
+          <!-- TEST resources (.feature) -->
+          <execution>
+            <id>add-test-resource</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/test_backup/resources/features</directory>
+                  <targetPath>features</targetPath>
+                  <includes>
+                    <include>**/*.feature</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
+
+      <!-- Surefire: ejecución de tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+
       <!-- SonarCloud -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
@@ -208,7 +205,6 @@
       </plugin>
 
     </plugins>
-   <sourceDirectory>${project.basedir}/src</sourceDirectory>
   </build>
 
 </project>
