@@ -146,6 +146,31 @@
           </execution>
         </executions>
       </plugin>
+         <!-- Incluir carpeta test_backup/resources en el classpath -->
+      <plugin>
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>build-helper-maven-plugin</artifactId>
+         <version>3.4.0</version>
+         <executions>
+         <execution>
+         <id>add-test-resource</id>
+         <phase>generate-test-resources</phase>
+         <goals>
+         <goal>add-test-resource</goal>
+         </goals>
+         <configuration>
+         <resources>
+         <resource>
+         <directory>${project.basedir}/src/test_backup/resources</directory>
+         <includes>
+          <include>**/*.feature</include>
+         </includes>
+         </resource>
+         </resources>
+         </configuration>
+         </execution>
+         </executions>
+</plugin>
 
       <!-- Plugin para ejecutar los tests -->
       <plugin>
@@ -160,8 +185,9 @@
 <!-- Ruta donde están los features -->
               <cucumber.features>${project.basedir}/src/test_backup/resources/features</cucumber.features>
 <!-- Ruta donde están los step definitions -->
-              <cucumber.glue>com.grupo</cucumber.glue>
-              <cucumber.plugin>pretty, html:target/cucumber-report.html</cucumber.plugin>      
+              <cucumber.glue>com,com.grupo</cucumber.glue>
+              <cucumber.plugin>pretty, html:target/cucumber-report.html</cucumber.plugin> 
+              <junit.platform.listeners.default>true</junit.platform.listeners.default>
             </systemPropertyVariables>
             <testSourceDirectory>${project.basedir}/Test</testSourceDirectory>
           </configuration>
