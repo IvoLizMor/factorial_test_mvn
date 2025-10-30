@@ -26,6 +26,7 @@
     <java.version>17</java.version>
     <cucumber.version>7.30.0</cucumber.version>
     <junit.version>5.10.2</junit.version>
+    <junit.platform.version>1.10.2</junit.platform.version>       
   </properties>
 
   <!-- =============================================================== -->
@@ -214,6 +215,17 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
+      <plugin>
+         <groupId>org.sonarsource.scanner.maven</groupId>
+             <artifactId>sonar-maven-plugin</artifactId>
+             <version>3.11.0.3922</version>
+          <configuration>
+          <sonar.sources>src/main/java</sonar.sources>
+          <sonar.tests>Test,src/test_backup</sonar.tests>
+          <sonar.exclusions>**/*Test.java,**/RunCucumberTest.java</sonar.exclusions>
+         </configuration>
+      </plugin>
+
 
       <!-- =========================================================== -->
       <!-- SonarCloud -->
