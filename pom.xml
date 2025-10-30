@@ -181,15 +181,14 @@
 
           <!-- Copia los .feature al classpath antes de ejecutar tests -->
           <execution>
-            <id>copy-feature-files</id>
-            <phase>prepare-package</phase> <!-- 👈 fase crítica -->
+            <id>add-test-resource</id>
+            <phase>generate-test-resources</phase>
             <goals><goal>add-test-resource</goal></goals>
             <configuration>
               <resources>
                 <resource>
-                  <directory>${project.basedir}/src/test_backup/resources/features</directory>
-                  <targetPath>${project.build.testOutputDirectory}/features</targetPath>
-                  <includes>
+                  <directory>${project.basedir}/src/test_backup/resources</directory>
+                    <includes>
                     <include>**/*.feature</include>
                   </includes>
                 </resource>
