@@ -16,7 +16,6 @@
   <artifactId>factorial-app</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
-  <name>factorial-app</name>
 
   <properties>
     <java.version>17</java.version>
@@ -25,8 +24,7 @@
   </properties>
 
   <dependencies>
-
-    <!-- =================== TEST =================== -->
+    <!-- ================== Test ================== -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
@@ -55,7 +53,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- =================== APP =================== -->
+    <!-- ================== App ================== -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
@@ -87,12 +85,9 @@
   </dependencies>
 
   <build>
-
-    <!-- ======== FUENTES PERSONALIZADAS ======== -->
     <sourceDirectory>${project.basedir}/src</sourceDirectory>
 
     <testResources>
-      <!-- Copia las features para que queden en el classpath -->
       <testResource>
         <directory>${project.basedir}/src/test_backup/resources</directory>
         <targetPath>features</targetPath>
@@ -104,31 +99,11 @@
 
     <plugins>
 
-      <!-- SPRING BOOT -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
-      <!-- JACOCO -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
-        <executions>
-          <execution>
-            <id>prepare-agent</id>
-            <goals><goal>prepare-agent</goal></goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>verify</phase>
-            <goals><goal>report</goal></goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- BUILD-HELPER: para /src y /Test -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -157,7 +132,6 @@
         </executions>
       </plugin>
 
-      <!-- SUREFIRE (JUnit Platform + Cucumber) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -167,19 +141,15 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <properties>
-            <configurationParameters>
-              junit.platform.listeners.default=true
-            </configurationParameters>
-          </properties>
-          <systemPropertyVariables>
-            <cucumber.execution.verbose>true</cucumber.execution.verbose>
-            <cucumber.publish.quiet>false</cucumber.publish.quiet>
-          </systemPropertyVariables>
         </configuration>
       </plugin>
 
-      <!-- SONARCLOUD -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.11</version>
+      </plugin>
+
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
