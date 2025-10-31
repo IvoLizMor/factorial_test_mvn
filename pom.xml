@@ -1,6 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -24,15 +26,7 @@
 
   <dependencies>
 
-    <!-- JUnit Platform Suite API -->
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-suite</artifactId>
-      <version>1.10.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Cucumber + JUnit5 -->
+    <!-- =================== TEST =================== -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
@@ -47,7 +41,13 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- JUnit Jupiter -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-suite</artifactId>
+      <version>1.10.2</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -55,26 +55,23 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Spring Boot básico -->
+    <!-- =================== APP =================== -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
 
-    <!-- Spark Java -->
     <dependency>
       <groupId>com.sparkjava</groupId>
       <artifactId>spark-core</artifactId>
       <version>2.9.4</version>
     </dependency>
 
-    <!-- API REST -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Pruebas Spring Boot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -91,13 +88,14 @@
 
   <build>
 
-    <!-- 📁 Fuente principal -->
+    <!-- ======== FUENTES PERSONALIZADAS ======== -->
     <sourceDirectory>${project.basedir}/src</sourceDirectory>
 
-    <!-- ✅ Incluye los .feature al classpath de test -->
     <testResources>
+      <!-- Copia las features para que queden en el classpath -->
       <testResource>
         <directory>${project.basedir}/src/test_backup/resources</directory>
+        <targetPath>features</targetPath>
         <includes>
           <include>**/*.feature</include>
         </includes>
@@ -106,13 +104,13 @@
 
     <plugins>
 
-      <!-- Spring Boot -->
+      <!-- SPRING BOOT -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
-      <!-- JaCoCo: cobertura -->
+      <!-- JACOCO -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -120,39 +118,26 @@
         <executions>
           <execution>
             <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
+            <goals><goal>prepare-agent</goal></goals>
           </execution>
           <execution>
             <id>report</id>
             <phase>verify</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/target/site/jacoco</outputDirectory>
-              <reports>
-                <xml enabled="true"/>
-                <html enabled="true"/>
-              </reports>
-            </configuration>
+            <goals><goal>report</goal></goals>
           </execution>
         </executions>
       </plugin>
 
-      <!-- Build Helper: reconoce rutas personalizadas -->
+      <!-- BUILD-HELPER: para /src y /Test -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.4.0</version>
         <executions>
           <execution>
-            <id>add-source</id>
+            <id>add-src</id>
             <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
+            <goals><goal>add-source</goal></goals>
             <configuration>
               <sources>
                 <source>${project.basedir}/src</source>
@@ -160,11 +145,9 @@
             </configuration>
           </execution>
           <execution>
-            <id>add-test-source</id>
+            <id>add-test-src</id>
             <phase>generate-test-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
+            <goals><goal>add-test-source</goal></goals>
             <configuration>
               <sources>
                 <source>${project.basedir}/Test</source>
@@ -174,12 +157,13 @@
         </executions>
       </plugin>
 
-      <!-- Surefire: ejecuta Cucumber + JUnit -->
+      <!-- SUREFIRE (JUnit Platform + Cucumber) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
         <configuration>
+          <useModulePath>false</useModulePath>
           <includes>
             <include>**/*Test.java</include>
           </includes>
@@ -195,7 +179,7 @@
         </configuration>
       </plugin>
 
-      <!-- SonarCloud -->
+      <!-- SONARCLOUD -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
