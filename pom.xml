@@ -1,13 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <!-- =============================================================== -->
-  <!--          PROYECTO SPRING BOOT + CUCUMBER + JUNIT5               -->
-  <!-- =============================================================== -->
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -26,12 +20,8 @@
     <java.version>17</java.version>
     <cucumber.version>7.30.0</cucumber.version>
     <junit.version>5.10.2</junit.version>
-    <junit.platform.version>1.10.2</junit.platform.version>       
   </properties>
 
-  <!-- =============================================================== -->
-  <!--                         DEPENDENCIAS                           -->
-  <!-- =============================================================== -->
   <dependencies>
 
     <!-- JUnit Platform Suite API -->
@@ -90,22 +80,29 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
       <exclusions>
-       <exclusion>
-        <groupId>org.junit.vintage</groupId>
-        <artifactId>junit-vintage-engine</artifactId>
-       </exclusion>
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
-          
   </dependencies>
 
-  <!-- =============================================================== -->
-  <!--                             BUILD                              -->
-  <!-- =============================================================== -->
   <build>
-    <!-- Tu fuente principal está en src/, no en src/main/java -->
+
+    <!-- 📁 Fuente principal -->
     <sourceDirectory>${project.basedir}/src</sourceDirectory>
+
+    <!-- ✅ Incluye los .feature al classpath de test -->
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test_backup/resources</directory>
+        <includes>
+          <include>**/*.feature</include>
+        </includes>
+      </testResource>
+    </testResources>
 
     <plugins>
 
@@ -115,9 +112,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
-      <!-- =========================================================== -->
-      <!-- JaCoCo: cobertura de pruebas -->
-      <!-- =========================================================== -->
+      <!-- JaCoCo: cobertura -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -146,62 +141,40 @@
         </executions>
       </plugin>
 
-      <!-- =========================================================== -->
-      <!-- Build Helper: incluye directorios personalizados -->
-      <!-- =========================================================== -->
+      <!-- Build Helper: reconoce rutas personalizadas -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.4.0</version>
         <executions>
-
-          <!-- Fuente principal -->
           <execution>
             <id>add-source</id>
             <phase>generate-sources</phase>
-            <goals><goal>add-source</goal></goals>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
             <configuration>
               <sources>
                 <source>${project.basedir}/src</source>
               </sources>
             </configuration>
           </execution>
-
-          <!-- Carpeta Test/ -->
           <execution>
             <id>add-test-source</id>
             <phase>generate-test-sources</phase>
-            <goals><goal>add-test-source</goal></goals>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
             <configuration>
               <sources>
                 <source>${project.basedir}/Test</source>
               </sources>
             </configuration>
           </execution>
-
-          <!-- Copia los .feature al classpath antes de ejecutar tests -->
-          <execution>
-            <id>add-test-resource</id>
-            <phase>generate-test-resources</phase>
-            <goals><goal>add-test-resource</goal></goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/src/test_backup/resources</directory>
-                    <includes>
-                    <include>**/*.feature</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-
         </executions>
       </plugin>
 
-      <!-- =========================================================== -->
-      <!-- Surefire: ejecuta los tests de JUnit5/Cucumber -->
-      <!-- =========================================================== -->
+      <!-- Surefire: ejecuta Cucumber + JUnit -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -221,21 +194,8 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
-      <plugin>
-         <groupId>org.sonarsource.scanner.maven</groupId>
-             <artifactId>sonar-maven-plugin</artifactId>
-             <version>3.11.0.3922</version>
-          <configuration>
-          <sonar.sources>src/main/java</sonar.sources>
-          <sonar.tests>test,src/test_backup</sonar.tests>
-          <sonar.exclusions>**/*Test.java,**/RunCucumberTest.java</sonar.exclusions>
-         </configuration>
-      </plugin>
 
-
-      <!-- =========================================================== -->
       <!-- SonarCloud -->
-      <!-- =========================================================== -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
@@ -244,5 +204,4 @@
 
     </plugins>
   </build>
-
 </project>
