@@ -1,3 +1,4 @@
+package com.grupo;
 import java.math.BigInteger;
 import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
