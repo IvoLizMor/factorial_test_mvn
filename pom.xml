@@ -24,7 +24,7 @@
   </properties>
 
   <dependencies>
-    <!-- ================== Test ================== -->
+    <!-- ============ Test ============ -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
@@ -53,7 +53,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- ================== App ================== -->
+    <!-- ============ App ============ -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
@@ -84,78 +84,51 @@
 
   </dependencies>
 
- <build>
-  <!-- 👇 El código fuente principal -->
-  <sourceDirectory>${project.basedir}/src</sourceDirectory>
+  <build>
 
-  <!-- 👇 Recursos de prueba: tus .feature -->
-  <testResources>
-    <testResource>
-      <directory>${project.basedir}/src/test_backup/resources</directory>
-      <targetPath>${project.build.testOutputDirectory}/features</targetPath>
-      <includes>
-        <include>**/*.feature</include>
-      </includes>
-    </testResource>
-  </testResources>
+    <!-- ✅ Ya no forzamos src/, usamos estructura Maven estándar -->
 
-  <plugins>
-
-    <!-- Spring Boot -->
-    <plugin>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-maven-plugin</artifactId>
-    </plugin>
-
-    <!-- 👇 build-helper: añade Test/ al classpath de pruebas -->
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>build-helper-maven-plugin</artifactId>
-      <version>3.4.0</version>
-      <executions>
-        <execution>
-          <id>add-test-source</id>
-          <phase>generate-test-sources</phase>
-          <goals><goal>add-test-source</goal></goals>
-          <configuration>
-            <sources>
-              <source>${project.basedir}/Test</source>
-            </sources>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-
-    <!-- 👇 Surefire: ejecuta JUnit5 + Cucumber -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>3.2.5</version>
-      <configuration>
-        <useModulePath>false</useModulePath>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
         <includes>
-          <include>**/*Test.java</include>
+          <include>**/*.feature</include>
         </includes>
-        <systemPropertyVariables>
-          <cucumber.execution.verbose>true</cucumber.execution.verbose>
-        </systemPropertyVariables>
-      </configuration>
-    </plugin>
+      </testResource>
+    </testResources>
 
-    <!-- JaCoCo -->
-    <plugin>
-      <groupId>org.jacoco</groupId>
-      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.11</version>
-    </plugin>
+    <plugins>
 
-    <!-- SonarCloud -->
-    <plugin>
-      <groupId>org.sonarsource.scanner.maven</groupId>
-      <artifactId>sonar-maven-plugin</artifactId>
-      <version>3.11.0.3922</version>
-    </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
 
-  </plugins>
-</build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <useModulePath>false</useModulePath>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.11</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.11.0.3922</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>
