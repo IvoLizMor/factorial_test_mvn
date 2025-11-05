@@ -18,6 +18,7 @@ public class FactorialRecursivo {
     // Factorial recursivo con memorización y BigInteger (soporta hasta 100! o más)
     public static BigInteger factorial(int n) {
         if (n < 0) {
+            System.out.println("[ERROR] " + ErrorMessages.NEG);
             throw new IllegalArgumentException(ErrorMessages.NEG);
         }
 
