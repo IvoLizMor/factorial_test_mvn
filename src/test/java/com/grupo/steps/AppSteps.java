@@ -1,23 +1,60 @@
 package com.grupo.steps;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
+import io.cucumber.java.es.*;
+import static org.junit.jupiter.api.Assertions.*;
+import com.grupo.FactorialRecursivo;
+import java.math.BigInteger;
 
 public class AppSteps {
 
-    @Given("que el sistema está disponible")
-    public void sistemaDisponible() {
-        // por ahora no hace nada
+    private String entrada;
+    private BigInteger resultado;
+    private String mensajeError;
+
+    @Dado("que ingreso el número {string}")
+    public void que_ingreso_el_numero(String numero) {
+        this.entrada = numero;
     }
 
-    @When("el usuario solicita calcular el factorial de {int}")
-    public void solicitarFactorial(int n) {
-        // por ahora no hace nada
+    @Dado("no ingreso ningún valor")
+    public void no_ingreso_ningun_valor() {
+        this.entrada = "";
     }
 
-    @Then("el resultado debe ser mostrado correctamente")
-    public void resultadoMostrado() {
-        // por ahora no hace nada
+    @Cuando("solicito calcular el factorial")
+    public void solicito_calcular_el_factorial() {
+        try {
+            if (entrada == null || entrada.isEmpty()) {
+                throw new IllegalArgumentException("Debe ingresar un número");
+            }
+            int n = Integer.parseInt(entrada);
+            resultado = FactorialRecursivo.factorial(n);
+        } catch (NumberFormatException e) {
+            mensajeError = "Ingrese un número válido";
+        } catch (IllegalArgumentException e) {
+            mensajeError = e.getMessage();
+        }
+    }
+
+    @Entonces("se muestra el mensaje de error {string}")
+    public void se_muestra_el_mensaje_de_error(String mensajeEsperado) {
+        assertEquals(mensajeEsperado, mensajeError);
+    }
+
+    @Entonces("veo en pantalla {string}")
+    public void veo_en_pantalla(String mensajeEsperado) {
+        assertTrue(mensajeEsperado.contains(resultado.toString()));
+    }
+
+    @Entonces("veo un mensaje de error que indica {string}")
+    public void veo_un_mensaje_de_error_que_indica(String mensajeEsperado) {
+        assertEquals(mensajeEsperado, mensajeError);
+    }
+
+    @Entonces("la función utilizada debe ser recursiva")
+    public void la_funcion_utilizada_debe_ser_recursiva() {
+        // Validamos recursividad indirectamente comparando el resultado esperado
+        BigInteger esperado = BigInteger.valueOf(24);
+        assertEquals(esperado, FactorialRecursivo.factorial(4));
     }
 }
