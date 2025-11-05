@@ -1,3 +1,4 @@
+# language: es
 Característica: Gestión unificada de errores de entrada
   Antecedentes:
     Dado que la lógica de factorial valida que "n" no sea negativo
