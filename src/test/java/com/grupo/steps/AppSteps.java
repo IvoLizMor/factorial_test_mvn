@@ -11,16 +11,9 @@ public class AppSteps {
     private BigInteger resultado;
     private String mensajeError;
 
-    // --- soportar número como string con comillas ---
     @Dado("que ingreso el número {string}")
-    public void que_ingreso_el_numero_string(String numero) {
+    public void que_ingreso_el_numero(String numero) {
         this.entrada = numero;
-    }
-
-    // --- soportar número sin comillas (entero) ---
-    @Dado("que ingreso el número {int}")
-    public void que_ingreso_el_numero_int(int numero) {
-        this.entrada = String.valueOf(numero);
     }
 
     @Dado("no ingreso ningún valor")
@@ -30,21 +23,15 @@ public class AppSteps {
 
     @Cuando("solicito calcular el factorial")
     public void solicito_calcular_el_factorial() {
-        mensajeError = null;
-        resultado = null;
         try {
-            if (entrada == null || entrada.isBlank()) {
-                // Mantengo el mensaje igual que definiste en ErrorMessages/VAC
-                mensajeError = "Debe ingresar un número";
-                return;
+            if (entrada == null || entrada.isEmpty()) {
+                throw new IllegalArgumentException("Debe ingresar un número");
             }
-            // permite números con signo negativo, parsea y llama a la lógica
-            int n = Integer.parseInt(entrada.trim());
+            int n = Integer.parseInt(entrada);
             resultado = FactorialRecursivo.factorial(n);
         } catch (NumberFormatException e) {
             mensajeError = "Ingrese un número válido";
         } catch (IllegalArgumentException e) {
-            // La lógica lanza IllegalArgumentException con el mensaje unificado
             mensajeError = e.getMessage();
         }
     }
@@ -56,10 +43,7 @@ public class AppSteps {
 
     @Entonces("veo en pantalla {string}")
     public void veo_en_pantalla(String mensajeEsperado) {
-        assertNotNull(resultado, "No se produjo resultado numérico");
-        // comprueba que el resultado aparece en el texto esperado (como tu feature pide)
-        assertTrue(mensajeEsperado.contains(resultado.toString()),
-                   () -> "Resultado esperado no contiene el número calculado: " + resultado);
+        assertTrue(mensajeEsperado.contains(resultado.toString()));
     }
 
     @Entonces("veo un mensaje de error que indica {string}")
@@ -69,7 +53,7 @@ public class AppSteps {
 
     @Entonces("la función utilizada debe ser recursiva")
     public void la_funcion_utilizada_debe_ser_recursiva() {
-        // Validamos recursividad indirectamente comparando el resultado
+        // Validamos recursividad indirectamente comparando el resultado esperado
         BigInteger esperado = BigInteger.valueOf(24);
         assertEquals(esperado, FactorialRecursivo.factorial(4));
     }
