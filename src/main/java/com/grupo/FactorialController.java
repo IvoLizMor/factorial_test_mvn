@@ -29,7 +29,7 @@ public class FactorialController {
     @GetMapping("/factorial")
     public String factorial(@RequestParam(name = "n", defaultValue = "5") int n) {
         if (n < 0) {
-            return "El número debe ser no negativo.";
+            return ErrorMessages.NEG;
         }
         return "El factorial de " + n + " es " + factorialRecursivo(n);
     }
