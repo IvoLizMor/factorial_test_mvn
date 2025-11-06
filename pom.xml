@@ -24,6 +24,14 @@
     </properties>
 
     <dependencies>
+        <!-- ✅ API de JUnit Platform Suite (necesaria para RunCucumberTest.java) -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite-api</artifactId>
+            <version>1.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- === SPRING CORE === -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
