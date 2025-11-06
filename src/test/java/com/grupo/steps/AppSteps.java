@@ -3,7 +3,7 @@ package com.grupo.steps;
 import io.cucumber.java.es.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.grupo.errors.FactorialRecursivo; // ✅ ajustado al paquete real (según tu estructura)
+import com.grupo.errors.FactorialRecursivo;
 import java.math.BigInteger;
 
 public class AppSteps {
@@ -36,4 +36,37 @@ public class AppSteps {
 
             resultado = FactorialRecursivo.factorial(n);
 
-        } catch (NumberForma
+        } catch (NumberFormatException e) {
+            mensajeError = "Ingrese un número válido";
+        } catch (IllegalArgumentException e) {
+            mensajeError = e.getMessage();
+        }
+    }
+
+    @Entonces("se muestra el mensaje de error {string}")
+    public void se_muestra_el_mensaje_de_error(String mensajeEsperado) {
+        assertEquals(mensajeEsperado, mensajeError,
+            "❌ El mensaje de error no coincide con el esperado");
+    }
+
+    @Entonces("veo en pantalla {string}")
+    public void veo_en_pantalla(String mensajeEsperado) {
+        assertNotNull(resultado, "❌ No se generó resultado");
+        assertTrue(mensajeEsperado.contains(resultado.toString()),
+            "❌ El resultado mostrado no coincide con el esperado");
+    }
+
+    @Entonces("veo un mensaje de error que indica {string}")
+    public void veo_un_mensaje_de_error_que_indica(String mensajeEsperado) {
+        assertEquals(mensajeEsperado, mensajeError,
+            "❌ El mensaje de error no coincide con el esperado");
+    }
+
+    @Entonces("la función utilizada debe ser recursiva")
+    public void la_funcion_utilizada_debe_ser_recursiva() {
+        BigInteger esperado = BigInteger.valueOf(24);
+        BigInteger obtenido = FactorialRecursivo.factorial(4);
+        assertEquals(esperado, obtenido,
+            "❌ La función factorial no parece ser recursiva o retorna un valor incorrecto");
+    }
+}
