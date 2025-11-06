@@ -111,7 +111,7 @@
            <configuration>
              <useModulePath>false</useModulePath>
              <includes>
-               <include>**/*Test.java</include>
+               <include>**/RunCucumberTest.java</include>
              </includes>
            </configuration>
       </plugin>
