@@ -78,6 +78,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -118,16 +119,32 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Runner de pruebas con JUnit Platform -->
+            <!-- ✅ Runner de pruebas con JUnit Platform y Cucumber -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <!-- Desactiva el module path para compatibilidad -->
                     <useModulePath>false</useModulePath>
+
+                    <!-- Evita forks con classpath incompleto (GitHub Actions) -->
+                    <forkCount>0</forkCount>
+
+                    <!-- Permite que JUnit descubra el engine 'cucumber' -->
+                    <properties>
+                        <property>
+                            <name>junit.platform.discovery.listener.default</name>
+                            <value>summary</value>
+                        </property>
+                    </properties>
+
+                    <!-- Archivos de prueba detectados -->
                     <includes>
                         <include>**/RunCucumberTest.java</include>
                         <include>**/*Test.java</include>
+                        <include>**/*Tests.java</include>
+                        <include>**/*IT.java</include>
                     </includes>
                 </configuration>
             </plugin>
