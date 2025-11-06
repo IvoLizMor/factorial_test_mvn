@@ -3,7 +3,7 @@ package com.grupo.steps;
 import io.cucumber.java.es.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.grupo.errors.FactorialRecursivo;
+import com.grupo.FactorialRecursivo;
 import java.math.BigInteger;
 
 public class AppSteps {
