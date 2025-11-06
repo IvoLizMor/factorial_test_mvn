@@ -42,13 +42,14 @@ public class AppSteps {
 
             int n = Integer.parseInt(entrada);
             if (n < 0) {
-                throw new IllegalArgumentException("No se permiten números negativos");
+                throw new IllegalArgumentException("Ingrese un número entero positivo");
             }
+
 
             resultado = FactorialRecursivo.factorial(n);
 
         } catch (NumberFormatException e) {
-            mensajeError = "Ingrese solo números enteros";
+            mensajeError = "Ingrese un número válido";
         } catch (IllegalArgumentException e) {
             mensajeError = e.getMessage();
         }
@@ -87,6 +88,11 @@ public class AppSteps {
     // =============================================================
 
     // --- Para calculo_factorial.feature ---
+    @Dado("que no ingreso ningun valor")
+    public void que_no_ingreso_ningun_valor_sin_tilde() {
+        no_ingreso_ningun_valor(); // llama al método real
+    }
+    
     @Dado("que la aplicación está en funcionamiento")
     public void que_la_aplicacion_esta_en_funcionamiento() {
         System.out.println("Aplicación en funcionamiento: entorno de pruebas activo.");
