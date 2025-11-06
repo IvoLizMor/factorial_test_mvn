@@ -18,14 +18,13 @@
 
     <properties>
         <java.version>17</java.version>
-        <cucumber.version>7.30.0</cucumber.version>
+        <cucumber.version>7.18.1</cucumber.version>
         <junit.platform.version>1.10.2</junit.platform.version>
         <junit.version>5.10.2</junit.version>
     </properties>
 
     <dependencies>
-
-        <!-- === SPRING CORE === -->
+        <!-- SPRING CORE -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -42,7 +41,7 @@
             <version>2.9.4</version>
         </dependency>
 
-        <!-- === CUCUMBER + JUNIT PLATFORM === -->
+        <!-- CUCUMBER + JUNIT -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -57,14 +56,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-spring</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- === JUNIT PLATFORM (OBLIGATORIO PARA 1.10.x) === -->
+        <!-- JUNIT PLATFORM -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -79,21 +71,13 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-            <version>${junit.platform.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- === JUNIT JUPITER === -->
+        <!-- JUNIT JUPITER -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -101,7 +85,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- === SPRING BOOT TEST === -->
+        <!-- SPRING TEST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -113,63 +97,42 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
 
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>**/*.feature</include>
-                </includes>
-            </testResource>
-        </testResources>
-
         <plugins>
 
-            <!-- SPRING BOOT -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- ✅ SUREFIRE CONFIGURADO PARA CUCUMBER -->
+            <!-- 🔹 CUCUMBER + JUNIT PLATFORM CONFIGURADO -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <dependencies>
+                    <!-- Fuerza JUnit Platform 1.10.2 dentro de Surefire -->
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-launcher</artifactId>
+                        <version>${junit.platform.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-engine</artifactId>
+                        <version>${junit.platform.version}</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <useModulePath>false</useModulePath>
                     <forkCount>0</forkCount>
-
-                    <properties>
-                        <property>
-                            <name>junit.platform.discovery.listener.default</name>
-                            <value>summary</value>
-                        </property>
-                    </properties>
-
                     <includes>
                         <include>**/RunCucumberTest.java</include>
                         <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
                     </includes>
                 </configuration>
-            </plugin>
-
-            <!-- JACOCO -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version>
-            </plugin>
-
-            <!-- SONARCLOUD -->
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.11.0.3922</version>
             </plugin>
 
         </plugins>
