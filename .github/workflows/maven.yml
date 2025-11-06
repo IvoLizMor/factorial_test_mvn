@@ -23,11 +23,13 @@ jobs:
 
     # 🧱 Compila y empaqueta el proyecto
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      #run: mvn -B package --file pom.xml
+      run: mvn -B clean package --file pom.xml
 
     # 🧪 Ejecuta solo el runner de Cucumber (JUnit 5)
     - name: Run Cucumber (JUnit 5)
-      run: mvn -B -ntp clean test #-Dtest=RunCucumberTest
+      #run: mvn -B -ntp clean test #-Dtest=RunCucumberTest
+      run: mvn -B -ntp test #-Dtest=RunCucumberTest
       #run: mvn -B -ntp clean verify -Dtest=RunCucumberTest
       
     # 📊 Publica los reportes de Cucumber como artifacts
