@@ -48,7 +48,7 @@ jobs:
          # target/cucumber-report.html
           #target/cucumber.json
           
-    - name: Publicar reporte Cucumber
+    - name: 📊 Publicar reporte Cucumber
       if: always()
       uses: actions/upload-artifact@v4
       with:
@@ -56,4 +56,5 @@ jobs:
         path: |
           target/**/*.html
           target/**/*.json
-      if-no-files-found: warn
+        if-no-files-found: warn
+
