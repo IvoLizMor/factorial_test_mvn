@@ -19,21 +19,11 @@
     <properties>
         <java.version>17</java.version>
         <cucumber.version>7.18.1</cucumber.version>
-        <junit.platform.version>1.10.2</junit.platform.version>
         <junit.version>5.10.2</junit.version>
         <jacoco.version>0.8.11</jacoco.version>
     </properties>
 
     <dependencies>
-        <!-- 🔹 JUnit Platform Suite API (para @Suite y @SelectClasspathResource) -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite-api</artifactId>
-            <version>1.10.2</version>
-            <scope>test</scope>
-        </dependency>
-
-
         <!-- === SPRING CORE === -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,13 +35,29 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- === SPARK === -->
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
             <version>2.9.4</version>
         </dependency>
 
-        <!-- === CUCUMBER === -->
+        <!-- === JUNIT JUPITER (API + ENGINE) === -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- === CUCUMBER (para JUnit 5) === -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -66,33 +72,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- === JUNIT PLATFORM === -->
+        <!-- (opcional) para inyección de dependencias en Steps -->
         <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit.platform.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-engine</artifactId>
-            <version>${junit.platform.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- === JUNIT JUPITER === -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -114,7 +98,7 @@
     <build>
         <plugins>
 
-            <!-- SPRING BOOT -->
+            <!-- ✅ SPRING BOOT -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -127,6 +111,9 @@
                 <version>3.2.5</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+
                     <!-- 🟢 Ejecutar runner de Cucumber y tests normales -->
                     <includes>
                         <include>**/RunCucumberTest.java</include>
@@ -134,19 +121,11 @@
                     </includes>
 
                     <!-- 🧠 Configuración Cucumber / JUnit Platform -->
-                    <systemProperties>
-                        <property>
-                            <name>cucumber.junit-platform.naming-strategy</name>
-                            <value>long</value>
-                        </property>
-                    </systemProperties>
-
-                    <!-- ✅ forkCount debe ser al menos 1 -->
-                    <forkCount>1</forkCount>
-                    <reuseForks>true</reuseForks>
+                    <systemPropertyVariables>
+                        <cucumber.junit-platform.naming-strategy>long</cucumber.junit-platform.naming-strategy>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
-
 
             <!-- ✅ JACOCO PARA COBERTURA -->
             <plugin>
@@ -169,7 +148,7 @@
                 </executions>
             </plugin>
 
-            <!-- SONARCLOUD (si aplica) -->
+            <!-- (opcional) SONARCLOUD -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
