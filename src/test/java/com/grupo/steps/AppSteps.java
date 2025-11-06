@@ -56,10 +56,9 @@ public class AppSteps {
 
             int n = Integer.parseInt(entrada);
             if (n < 0) {
-                throw new IllegalArgumentException(
-                    modoGestionErrores ? "No se permiten números negativos" : "Ingrese un número entero positivo"
-                );
+                throw new IllegalArgumentException("No se permiten números negativos");
             }
+
 
             resultado = FactorialRecursivo.factorial(n);
 
