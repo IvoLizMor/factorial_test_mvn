@@ -12,15 +12,21 @@ public class AppSteps {
     private BigInteger resultado;
     private String mensajeError;
 
-    @Dado("que ingreso el número {string}")
+   /* @Dado("que ingreso el número {string}")
     public void que_ingreso_el_numero(String numero) {
         this.entrada = numero;
-    }
+    }*/
     
-    @Dado("que ingreso el valor {string}")
+   /* @Dado("que ingreso el valor {string}")
     public void que_ingreso_el_valor(String valor) {
         this.entrada = valor;
+    }*/
+      @Dado("que ingreso el número {string}")
+      @Dado("que ingreso el valor {string}")
+    public void que_ingreso_el_numero_o_valor(String numero) {
+        this.entrada = numero;
     }
+
 
     @Dado("no ingreso ningún valor")
     public void no_ingreso_ningun_valor() {
