@@ -15,7 +15,7 @@ public class AppSteps {
     private String mensajeError;
 
     // =============================================================
-    // === BLOQUE PRINCIPAL (ajustado con mensajes correctos) ======
+    // === BLOQUE PRINCIPAL ========================================
     // =============================================================
     @Dado("que ingreso el número {int}")
     public void que_ingreso_el_numero_int(Integer numero) {
@@ -28,14 +28,19 @@ public class AppSteps {
         this.entrada = numero;  
     }
 
+    // === Compatibilidad total para pasos de "no ingreso valor" ===
     @Dado("no ingreso ningún valor")
     public void no_ingreso_ningun_valor() {
         this.entrada = "";
     }
 
-    // ✅ Alias sin tilde (GitHub Actions en Linux)
     @Dado("que no ingreso ningun valor")
     public void que_no_ingreso_ningun_valor_sin_tilde() {
+        no_ingreso_ningun_valor();
+    }
+
+    @Dado("que no ingreso ningún valor")
+    public void que_no_ingreso_ningun_valor_con_tilde() {
         no_ingreso_ningun_valor();
     }
 
@@ -43,18 +48,18 @@ public class AppSteps {
     public void solicito_calcular_el_factorial() {
         try {
             if (entrada == null || entrada.isEmpty()) {
-                throw new IllegalArgumentException("Debe ingresar un valor");
+                throw new IllegalArgumentException("Debe ingresar un número");
             }
 
             int n = Integer.parseInt(entrada);
             if (n < 0) {
-                throw new IllegalArgumentException("No se permiten números negativos");
+                throw new IllegalArgumentException("Ingrese un número entero positivo");
             }
 
             resultado = FactorialRecursivo.factorial(n);
 
         } catch (NumberFormatException e) {
-            mensajeError = "Ingrese solo números enteros";
+            mensajeError = "Ingrese un número válido";
         } catch (IllegalArgumentException e) {
             mensajeError = e.getMessage();
         }
@@ -69,7 +74,6 @@ public class AppSteps {
     @Entonces("veo en pantalla {string}")
     public void veo_en_pantalla(String mensajeEsperado) {
         assertNotNull(resultado, "No se generó resultado");
-        // Validación lógica y segura del resultado mostrado
         assertTrue(mensajeEsperado.contains(resultado.toString()),
             "El resultado mostrado no coincide con el esperado");
     }
@@ -169,3 +173,4 @@ public class AppSteps {
         assertNull(resultado, "No debería haberse generado resultado alguno");
     }
 }
+
