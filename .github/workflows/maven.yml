@@ -34,8 +34,18 @@ jobs:
       #run: mvn -B -ntp clean verify -Dtest=RunCucumberTest
    # - name: Run Cucumber Tests    
     #  run: mvn -B -ntp test -Dtest=RunCucumberTest
+    #vamos a modificar las siguientes lines, con estas dos ya corren los tres actions
+    #- name: Run Cucumber (JUnit 5)
+      #run: mvn -B -ntp test -Dtest=com.grupo.RunCucumberTest -Dcucumber.features=src/test/resources/features -Dcucumber.execution.strict=false
+#por estas 7 lineas
     - name: Run Cucumber (JUnit 5)
-      run: mvn -B -ntp test -Dtest=com.grupo.RunCucumberTest -Dcucumber.features=src/test/resources/features -Dcucumber.execution.strict=false
+      run: |
+       mvn -B -ntp test \
+       -Dtest=com.grupo.RunCucumberTest \
+       -Dcucumber.features=src/test/resources/features \
+       -Dcucumber.execution.strict=false \
+       -Dcucumber.plugin="pretty,html:target/cucumber-report.html,json:target/cucumber.json"
+
 
     #se van a cambar las proximas lineas  
     # 📊 Publica los reportes de Cucumber como artifacts
