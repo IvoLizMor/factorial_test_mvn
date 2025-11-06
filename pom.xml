@@ -21,10 +21,12 @@
         <cucumber.version>7.18.1</cucumber.version>
         <junit.platform.version>1.10.2</junit.platform.version>
         <junit.version>5.10.2</junit.version>
+        <jacoco.version>0.8.11</jacoco.version>
     </properties>
 
     <dependencies>
-        <!-- SPRING CORE -->
+
+        <!-- === SPRING CORE === -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -41,7 +43,7 @@
             <version>2.9.4</version>
         </dependency>
 
-        <!-- CUCUMBER + JUNIT -->
+        <!-- === CUCUMBER === -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -56,7 +58,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUNIT PLATFORM -->
+        <!-- === JUNIT PLATFORM === -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -71,13 +73,14 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUNIT JUPITER -->
+        <!-- === JUNIT JUPITER === -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -85,7 +88,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- SPRING TEST -->
+        <!-- === SPRING TEST === -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -97,23 +100,24 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
 
+            <!-- SPRING BOOT -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- 🔹 CUCUMBER + JUNIT PLATFORM CONFIGURADO -->
+            <!-- ✅ CUCUMBER + JUNIT CONFIG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <dependencies>
-                    <!-- Fuerza JUnit Platform 1.10.2 dentro de Surefire -->
                     <dependency>
                         <groupId>org.junit.platform</groupId>
                         <artifactId>junit-platform-launcher</artifactId>
@@ -133,6 +137,34 @@
                         <include>**/*Test.java</include>
                     </includes>
                 </configuration>
+            </plugin>
+
+            <!-- ✅ JACOCO PARA COBERTURA -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- SONARCLOUD (si aplica) -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.11.0.3922</version>
             </plugin>
 
         </plugins>
