@@ -15,11 +15,11 @@ public class AppSteps {
     private String mensajeError;
 
     // =============================================================
-    // === BLOQUE ORIGINAL (NO SE MODIFICA) ========================
+    // === BLOQUE PRINCIPAL (ajustado con mensajes correctos) ======
     // =============================================================
     @Dado("que ingreso el número {int}")
     public void que_ingreso_el_numero_int(Integer numero) {
-    this.entrada = String.valueOf(numero);
+        this.entrada = String.valueOf(numero);
     }
 
     @Dado("que ingreso el número {string}")
@@ -33,6 +33,12 @@ public class AppSteps {
         this.entrada = "";
     }
 
+    // ✅ Alias sin tilde (GitHub Actions en Linux)
+    @Dado("que no ingreso ningun valor")
+    public void que_no_ingreso_ningun_valor_sin_tilde() {
+        no_ingreso_ningun_valor();
+    }
+
     @Cuando("solicito calcular el factorial")
     public void solicito_calcular_el_factorial() {
         try {
@@ -42,14 +48,13 @@ public class AppSteps {
 
             int n = Integer.parseInt(entrada);
             if (n < 0) {
-                throw new IllegalArgumentException("Ingrese un número entero positivo");
+                throw new IllegalArgumentException("No se permiten números negativos");
             }
-
 
             resultado = FactorialRecursivo.factorial(n);
 
         } catch (NumberFormatException e) {
-            mensajeError = "Ingrese un número válido";
+            mensajeError = "Ingrese solo números enteros";
         } catch (IllegalArgumentException e) {
             mensajeError = e.getMessage();
         }
@@ -58,21 +63,21 @@ public class AppSteps {
     @Entonces("se muestra el mensaje de error {string}")
     public void se_muestra_el_mensaje_de_error(String mensajeEsperado) {
         assertEquals(mensajeEsperado, mensajeError,
-            " El mensaje de error no coincide con el esperado");
+            "El mensaje de error no coincide con el esperado");
     }
 
     @Entonces("veo en pantalla {string}")
     public void veo_en_pantalla(String mensajeEsperado) {
-        assertNotNull(resultado, " No se generó resultado");
-        // ⚙️ validación más lógica y segura
+        assertNotNull(resultado, "No se generó resultado");
+        // Validación lógica y segura del resultado mostrado
         assertTrue(mensajeEsperado.contains(resultado.toString()),
-            " El resultado mostrado no coincide con el esperado");
+            "El resultado mostrado no coincide con el esperado");
     }
 
     @Entonces("veo un mensaje de error que indica {string}")
     public void veo_un_mensaje_de_error_que_indica(String mensajeEsperado) {
         assertEquals(mensajeEsperado, mensajeError,
-            " El mensaje de error no coincide con el esperado");
+            "El mensaje de error no coincide con el esperado");
     }
 
     @Entonces("la función utilizada debe ser recursiva")
@@ -80,19 +85,14 @@ public class AppSteps {
         BigInteger esperado = BigInteger.valueOf(24);
         BigInteger obtenido = FactorialRecursivo.factorial(4);
         assertEquals(esperado, obtenido,
-            " La función factorial no parece ser recursiva o retorna un valor incorrecto");
+            "La función factorial no parece ser recursiva o retorna un valor incorrecto");
     }
 
     // =============================================================
-    // === BLOQUE NUEVO (PASOS DE OTROS FEATURE FILES) =============
+    // === BLOQUE DE SOPORTE PARA OTROS FEATURE FILES ==============
     // =============================================================
 
     // --- Para calculo_factorial.feature ---
-    @Dado("que no ingreso ningun valor")
-    public void que_no_ingreso_ningun_valor_sin_tilde() {
-        no_ingreso_ningun_valor(); // llama al método real
-    }
-    
     @Dado("que la aplicación está en funcionamiento")
     public void que_la_aplicacion_esta_en_funcionamiento() {
         System.out.println("Aplicación en funcionamiento: entorno de pruebas activo.");
@@ -169,4 +169,3 @@ public class AppSteps {
         assertNull(resultado, "No debería haberse generado resultado alguno");
     }
 }
-
