@@ -56,7 +56,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Integración con Spring Boot -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
@@ -64,7 +63,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- === JUnit Platform (para @Suite) === -->
+        <!-- === JUnit Platform === -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
@@ -75,7 +74,13 @@
         <!-- === JUnit Jupiter === -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -121,9 +126,8 @@
                 <configuration>
                     <useModulePath>false</useModulePath>
                     <includes>
+                        <include>**/RunCucumberTest.java</include>
                         <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
-                        <include>**/*IT.java</include>
                     </includes>
                 </configuration>
             </plugin>
