@@ -16,6 +16,11 @@ public class AppSteps {
     public void que_ingreso_el_numero(String numero) {
         this.entrada = numero;
     }
+    
+    @Dado("que ingreso el valor {string}")
+    public void que_ingreso_el_valor(String valor) {
+        this.entrada = valor;
+    }
 
     @Dado("no ingreso ningún valor")
     public void no_ingreso_ningun_valor() {
