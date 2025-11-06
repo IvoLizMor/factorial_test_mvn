@@ -32,8 +32,11 @@ jobs:
       #run: mvn -B -ntp clean test -Dtest=RunCucumberTest
       #run: mvn -B -ntp test #-Dtest=RunCucumberTest
       #run: mvn -B -ntp clean verify -Dtest=RunCucumberTest
-    - name: Run Cucumber Tests    
-      run: mvn -B -ntp test -Dtest=RunCucumberTest
+   # - name: Run Cucumber Tests    
+    #  run: mvn -B -ntp test -Dtest=RunCucumberTest
+    - name: Run Cucumber (JUnit 5)
+      run: mvn -B -ntp test -Dtest=com.grupo.RunCucumberTest -Dcucumber.features=src/test/resources/features
+
       
     # 📊 Publica los reportes de Cucumber como artifacts
     - name: Publicar reporte Cucumber
