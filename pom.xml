@@ -132,7 +132,8 @@
                     <!-- 🟢 Ejecutar runner de Cucumber y tests normales -->
                     <includes>
                         <include>**/RunCucumberTest.java</include>
-                        <include>**/*Test.java</include>
+                       <!-- <include>**/*Test.java</include> -->
+                        <include>**/*Test</include>                             
                     </includes>
 
                     <!-- 🧠 Configuración Cucumber / JUnit Platform -->
