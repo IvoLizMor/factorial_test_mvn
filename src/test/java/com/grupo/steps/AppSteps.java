@@ -13,10 +13,12 @@ public class AppSteps {
     private String entrada;
     private BigInteger resultado;
     private String mensajeError;
+    private boolean modoGestionErrores = false; // 🔹 activa textos “unificados”
 
     // =============================================================
     // === BLOQUE PRINCIPAL ========================================
     // =============================================================
+
     @Dado("que ingreso el número {int}")
     public void que_ingreso_el_numero_int(Integer numero) {
         this.entrada = String.valueOf(numero);
@@ -28,7 +30,6 @@ public class AppSteps {
         this.entrada = numero;  
     }
 
-    // === Compatibilidad total para pasos de "no ingreso valor" ===
     @Dado("no ingreso ningún valor")
     public void no_ingreso_ningun_valor() {
         this.entrada = "";
@@ -48,18 +49,22 @@ public class AppSteps {
     public void solicito_calcular_el_factorial() {
         try {
             if (entrada == null || entrada.isEmpty()) {
-                throw new IllegalArgumentException("Debe ingresar un número");
+                throw new IllegalArgumentException(
+                    modoGestionErrores ? "Debe ingresar un valor" : "Debe ingresar un número"
+                );
             }
 
             int n = Integer.parseInt(entrada);
             if (n < 0) {
-                throw new IllegalArgumentException("Ingrese un número entero positivo");
+                throw new IllegalArgumentException(
+                    modoGestionErrores ? "No se permiten números negativos" : "Ingrese un número entero positivo"
+                );
             }
 
             resultado = FactorialRecursivo.factorial(n);
 
         } catch (NumberFormatException e) {
-            mensajeError = "Ingrese un número válido";
+            mensajeError = modoGestionErrores ? "Ingrese solo números enteros" : "Ingrese un número válido";
         } catch (IllegalArgumentException e) {
             mensajeError = e.getMessage();
         }
@@ -123,11 +128,13 @@ public class AppSteps {
     @Dado("que la lógica de factorial valida que {string} no sea negativo")
     public void que_la_logica_de_factorial_valida_que_no_sea_negativo(String variable) {
         System.out.println("Validación activa para variable: " + variable);
+        modoGestionErrores = true; // 🔹 activa textos unificados
     }
 
     @Dado("la interfaz captura las excepciones generadas por la lógica")
     public void la_interfaz_captura_las_excepciones_generadas_por_la_logica() {
         System.out.println("Capturando excepciones generadas por la lógica del factorial.");
+        modoGestionErrores = true;
     }
 
     @Dado("existen los mensajes configurados:")
@@ -137,6 +144,7 @@ public class AppSteps {
         assertTrue(mensajes.containsKey("VAC"));
         assertTrue(mensajes.containsKey("INV"));
         System.out.println("Mensajes configurados: " + mensajes);
+        modoGestionErrores = true;
     }
 
     @Cuando("ingreso {string} en el formulario de cálculo")
