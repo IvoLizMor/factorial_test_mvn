@@ -1,7 +1,13 @@
 package com.grupo;
 
-import io.cucumber.junit.platform.engine.Cucumber;
+import org.junit.platform.suite.api.*;
+import static io.cucumber.junit.platform.engine.Constants.*;
 
-@Cucumber
-public class RunCucumberTest {
-}
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("features")  // ✅ apunta a src/test/resources/features
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.grupo.steps")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME,
+  value = "pretty, html:target/cucumber-report.html, json:target/cucumber.json")
+@ConfigurationParameter(key = SNIPPET_TYPE_PROPERTY_NAME, value = "camelcase")
+public class RunCucumberTest { }
