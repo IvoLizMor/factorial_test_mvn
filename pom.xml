@@ -25,6 +25,14 @@
     </properties>
 
     <dependencies>
+        <!-- 🔹 JUnit Platform Suite API (para @Suite y @SelectClasspathResource) -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite-api</artifactId>
+            <version>1.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- === SPRING CORE === -->
         <dependency>
