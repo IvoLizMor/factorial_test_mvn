@@ -2,7 +2,8 @@ package com.grupo.steps;
 
 import io.cucumber.java.es.*;
 import static org.junit.jupiter.api.Assertions.*;
-import com.grupo.FactorialRecursivo;
+
+import com.grupo.errors.FactorialRecursivo; // ✅ ajustado al paquete real (según tu estructura)
 import java.math.BigInteger;
 
 public class AppSteps {
@@ -27,34 +28,12 @@ public class AppSteps {
             if (entrada == null || entrada.isEmpty()) {
                 throw new IllegalArgumentException("Debe ingresar un número");
             }
+
             int n = Integer.parseInt(entrada);
+            if (n < 0) {
+                throw new IllegalArgumentException("El número debe ser positivo");
+            }
+
             resultado = FactorialRecursivo.factorial(n);
-        } catch (NumberFormatException e) {
-            mensajeError = "Ingrese un número válido";
-        } catch (IllegalArgumentException e) {
-            mensajeError = e.getMessage();
-        }
-    }
 
-    @Entonces("se muestra el mensaje de error {string}")
-    public void se_muestra_el_mensaje_de_error(String mensajeEsperado) {
-        assertEquals(mensajeEsperado, mensajeError);
-    }
-
-    @Entonces("veo en pantalla {string}")
-    public void veo_en_pantalla(String mensajeEsperado) {
-        assertTrue(mensajeEsperado.contains(resultado.toString()));
-    }
-
-    @Entonces("veo un mensaje de error que indica {string}")
-    public void veo_un_mensaje_de_error_que_indica(String mensajeEsperado) {
-        assertEquals(mensajeEsperado, mensajeError);
-    }
-
-    @Entonces("la función utilizada debe ser recursiva")
-    public void la_funcion_utilizada_debe_ser_recursiva() {
-        // Validamos recursividad indirectamente comparando el resultado esperado
-        BigInteger esperado = BigInteger.valueOf(24);
-        assertEquals(esperado, FactorialRecursivo.factorial(4));
-    }
-}
+        } catch (NumberForma
