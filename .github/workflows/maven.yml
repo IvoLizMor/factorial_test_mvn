@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Maven + Cucumber
 
 on:
   push:
@@ -21,8 +21,20 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    # 🧱 Compila y empaqueta el proyecto
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Run tests
-      run: mvn test
+    # 🧪 Ejecuta solo el runner de Cucumber (JUnit 5)
+    - name: Run Cucumber (JUnit 5)
+      run: mvn -B -ntp clean test -Dtest=RunCucumberTest
+
+    # 📊 Publica los reportes de Cucumber como artifacts
+    - name: Publicar reporte Cucumber
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cucumber-report
+        path: |
+          target/cucumber-report.html
+          target/cucumber.json
