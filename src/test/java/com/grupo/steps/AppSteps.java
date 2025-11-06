@@ -13,7 +13,9 @@ public class AppSteps {
     private String entrada;
     private BigInteger resultado;
     private String mensajeError;
-    private boolean modoGestionErrores = false; // 🔹 activa textos “unificados”
+    private boolean modoGestionErrores = false; // Gestion_unificada_errores
+    private boolean modoCalculoValido = false;  // Cálculo de factorial válido
+    private boolean modoValidacionSimple = false; // Validación_entradas
 
     // =============================================================
     // === BLOQUE PRINCIPAL ========================================
@@ -27,7 +29,7 @@ public class AppSteps {
     @Dado("que ingreso el número {string}")
     @Dado("que ingreso el valor {string}")
     public void que_ingreso_el_numero_o_valor(String numero) {
-        this.entrada = numero;  
+        this.entrada = numero;
     }
 
     @Dado("no ingreso ningún valor")
@@ -45,47 +47,63 @@ public class AppSteps {
         no_ingreso_ningun_valor();
     }
 
+    // =============================================================
+    // === LÓGICA PRINCIPAL DEL FACTORIAL ==========================
+    // =============================================================
+
     @Cuando("solicito calcular el factorial")
     public void solicito_calcular_el_factorial() {
         try {
             if (entrada == null || entrada.isEmpty()) {
-                throw new IllegalArgumentException(
-                    modoGestionErrores ? "Debe ingresar un valor" : "Debe ingresar un número"
-                );
+                if (modoGestionErrores) throw new IllegalArgumentException("Debe ingresar un valor");
+                if (modoValidacionSimple) throw new IllegalArgumentException("Debe ingresar un número");
+                throw new IllegalArgumentException("Debe ingresar un número");
             }
 
             int n = Integer.parseInt(entrada);
-            if (n < 0) {
-                throw new IllegalArgumentException("No se permiten números negativos");
-            }
 
+            // 🔹 Este bloque ahora adapta el mensaje según el feature activo
+            if (n < 0) {
+                if (modoCalculoValido)
+                    throw new IllegalArgumentException("Ingrese un número entero positivo");
+                else
+                    throw new IllegalArgumentException("No se permiten números negativos");
+            }
 
             resultado = FactorialRecursivo.factorial(n);
 
         } catch (NumberFormatException e) {
-            mensajeError = modoGestionErrores ? "Ingrese solo números enteros" : "Ingrese un número válido";
+            if (modoGestionErrores)
+                mensajeError = "Ingrese solo números enteros";
+            else if (modoValidacionSimple)
+                mensajeError = "Ingrese un número válido";
+            else
+                mensajeError = "Ingrese un número válido";
         } catch (IllegalArgumentException e) {
             mensajeError = e.getMessage();
         }
     }
 
+    // =============================================================
+    // === ASSERTS DE RESULTADOS ==================================
+    // =============================================================
+
     @Entonces("se muestra el mensaje de error {string}")
     public void se_muestra_el_mensaje_de_error(String mensajeEsperado) {
-        assertEquals(mensajeEsperado, mensajeError,
-            "El mensaje de error no coincide con el esperado");
+        assertEquals(mensajeEsperado, mensajeError, "El mensaje de error no coincide con el esperado");
     }
 
     @Entonces("veo en pantalla {string}")
     public void veo_en_pantalla(String mensajeEsperado) {
         assertNotNull(resultado, "No se generó resultado");
         assertTrue(mensajeEsperado.contains(resultado.toString()),
-            "El resultado mostrado no coincide con el esperado");
+                "El resultado mostrado no coincide con el esperado");
     }
 
     @Entonces("veo un mensaje de error que indica {string}")
     public void veo_un_mensaje_de_error_que_indica(String mensajeEsperado) {
         assertEquals(mensajeEsperado, mensajeError,
-            "El mensaje de error no coincide con el esperado");
+                "El mensaje de error no coincide con el esperado");
     }
 
     @Entonces("la función utilizada debe ser recursiva")
@@ -93,17 +111,20 @@ public class AppSteps {
         BigInteger esperado = BigInteger.valueOf(24);
         BigInteger obtenido = FactorialRecursivo.factorial(4);
         assertEquals(esperado, obtenido,
-            "La función factorial no parece ser recursiva o retorna un valor incorrecto");
+                "La función factorial no parece ser recursiva o retorna un valor incorrecto");
     }
 
     // =============================================================
-    // === BLOQUE DE SOPORTE PARA OTROS FEATURE FILES ==============
+    // === MARCADORES DE CONTEXTO POR FEATURE ======================
     // =============================================================
 
     // --- Para calculo_factorial.feature ---
     @Dado("que la aplicación está en funcionamiento")
     public void que_la_aplicacion_esta_en_funcionamiento() {
         System.out.println("Aplicación en funcionamiento: entorno de pruebas activo.");
+        modoCalculoValido = true;
+        modoGestionErrores = false;
+        modoValidacionSimple = false;
     }
 
     @Cuando("solicito calcular su factorial")
@@ -120,14 +141,16 @@ public class AppSteps {
     public void el_resultado_mostrado_debe_ser(String esperado) {
         assertNotNull(resultado, "No se generó resultado");
         assertTrue(esperado.contains(resultado.toString()),
-            "El resultado mostrado no coincide con el esperado");
+                "El resultado mostrado no coincide con el esperado");
     }
 
     // --- Para Gestion_unificada_errores.feature ---
     @Dado("que la lógica de factorial valida que {string} no sea negativo")
     public void que_la_logica_de_factorial_valida_que_no_sea_negativo(String variable) {
         System.out.println("Validación activa para variable: " + variable);
-        modoGestionErrores = true; // 🔹 activa textos unificados
+        modoGestionErrores = true;
+        modoCalculoValido = false;
+        modoValidacionSimple = false;
     }
 
     @Dado("la interfaz captura las excepciones generadas por la lógica")
@@ -161,7 +184,7 @@ public class AppSteps {
     @Entonces("veo el mensaje {string}")
     public void veo_el_mensaje(String mensajeEsperado) {
         assertEquals(mensajeEsperado, mensajeError,
-            "El mensaje mostrado no coincide con el esperado");
+                "El mensaje mostrado no coincide con el esperado");
     }
 
     @Entonces("el mensaje se muestra en el componente de error visible en Azure y en local")
@@ -172,7 +195,7 @@ public class AppSteps {
     @Entonces("el mensaje se registra en las pruebas automatizadas bajo {string}")
     public void el_mensaje_se_registra_en_las_pruebas_automatizadas_bajo(String ruta) {
         assertTrue(ruta.contains("src/test/java"),
-            "Ruta de registro inválida: " + ruta);
+                "Ruta de registro inválida: " + ruta);
     }
 
     @Entonces("la interfaz evita iniciar el cálculo del factorial")
