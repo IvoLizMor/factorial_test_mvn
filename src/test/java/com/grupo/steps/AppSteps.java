@@ -17,11 +17,15 @@ public class AppSteps {
     // =============================================================
     // === BLOQUE ORIGINAL (NO SE MODIFICA) ========================
     // =============================================================
+    @Dado("que ingreso el número {int}")
+    public void que_ingreso_el_numero_int(Integer numero) {
+    this.entrada = String.valueOf(numero);
+    }
 
     @Dado("que ingreso el número {string}")
     @Dado("que ingreso el valor {string}")
     public void que_ingreso_el_numero_o_valor(String numero) {
-        this.entrada = numero;
+        this.entrada = numero;  
     }
 
     @Dado("no ingreso ningún valor")
@@ -33,7 +37,7 @@ public class AppSteps {
     public void solicito_calcular_el_factorial() {
         try {
             if (entrada == null || entrada.isEmpty()) {
-                throw new IllegalArgumentException("Debe ingresar un número");
+                throw new IllegalArgumentException("Debe ingresar un valor");
             }
 
             int n = Integer.parseInt(entrada);
@@ -44,7 +48,7 @@ public class AppSteps {
             resultado = FactorialRecursivo.factorial(n);
 
         } catch (NumberFormatException e) {
-            mensajeError = "Ingrese un número válido";
+            mensajeError = "Ingrese solo números enteros";
         } catch (IllegalArgumentException e) {
             mensajeError = e.getMessage();
         }
