@@ -108,7 +108,8 @@ public class AppSteps {
 
     @Entonces("la función utilizada debe ser recursiva")
     public void la_funcion_utilizada_debe_ser_recursiva() {
-        BigInteger esperado = BigInteger.valueOf(24);
+        //BigInteger esperado = BigInteger.valueOf(24); esta linea es la correcta, se camba para el failure controlado
+        BigInteger esperado = BigInteger.valueOf(999);
         BigInteger obtenido = FactorialRecursivo.factorial(4);
         assertEquals(esperado, obtenido,
                 "La función factorial no parece ser recursiva o retorna un valor incorrecto");
